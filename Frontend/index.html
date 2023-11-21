@@ -4,11 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
     <title>Music Interface</title>
 </head>
 
 <body>
-    <h1 style="color: red" id="node-version">TEST PAGE</h1>
+    <div class="container">
+        <h1>MP3 Player</h1>
+        <div>
+            <img id="albumArt" src="placeholder.png" alt="">
+        </div>
+        <div>
+            <input class="input" type="file" id="mp3File" accept=".mp3">
+        </div>
+        <div>
+            <audio controls id="audioPlayer"></audio>
+        </div>
+        <div>
+
+        </div>
+        <div id="response">
+        </div>
+    </div>
+    <script>
+        window.testAPI.testMess("here here here");
+        window.testAPI.testMess("tetetstsdfsfdsfdsfd");
+    </script>
+    <script src="./renderer.js" defer></script>
 </body>
 
 </html>

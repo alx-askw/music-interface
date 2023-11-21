@@ -1,26 +1,51 @@
-const { app, BrowserWindow } = require('electron');
-// include the Node.js 'path' module at the top of your file
-const path = require('node:path');
+//main.js
+
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+// const server = require('./server')
+const startExpressServer = require('./server');
+
+const PORT = 3000;
 
 
-const createWindow = () => {
-    const win = new BrowserWindow({
+
+let mainWindow;
+
+function createWindow() {
+    mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
+            nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js')
         }
     });
 
+    mainWindow.loadFile('index.html');
 
-    win.loadFile('index.html');
+    mainWindow.on('closed', function () {
+        mainWindow = null;
+    });
+
+    // console.log("here", mainWindow.webContents);
 }
 
 app.whenReady().then(() => {
     createWindow();
-})
+
+    startExpressServer(mainWindow);
+});
+
+app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('activate', function () {
+    if (mainWindow === null) createWindow();
+});
 
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
+ipcMain.on('testAPI', (event, args) => {
+    console.log(args)
 })
+
