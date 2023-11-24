@@ -4,6 +4,9 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 // const server = require('./server')
 const startExpressServer = require('./server');
+const fs = require('fs');
+
+
 
 const PORT = 3000;
 
@@ -29,15 +32,18 @@ function createWindow() {
 
     // console.log("here", mainWindow.webContents);
 }
-
+const albumArtPath = './tempFiles/tempImage.jpg';
 app.whenReady().then(() => {
     createWindow();
-
+    if (fs.existsSync(albumArtPath)) fs.unlink(albumArtPath, (err) => { if (err) console.log(err); });
     startExpressServer(mainWindow);
 });
 
 app.on('window-all-closed', function () {
+    // ipc.removeAllListeners('set-song'); //!investigate this ASAP - see kanban board
+    fs.unlink('./tempFiles/tempImage.jpg', (err) => { if (err) console.log(err); })
     if (process.platform !== 'darwin') app.quit();
+
 });
 
 app.on('activate', function () {

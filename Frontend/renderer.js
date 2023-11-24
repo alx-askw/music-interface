@@ -9,19 +9,14 @@
 document.getElementById('mp3File').addEventListener('change', function (event) {
     const filePath = event.target.files[0].path;
     const imgPath = filePath.split(".")[0];
-    const fileMetaData = event.target.files[0];
     document.getElementById('audioPlayer').src = `file://${filePath}`;
-    document.getElementById('albumArt').src = `file://${imgPath}.jpg`
+    // document.getElementById('albumArt').src = `file://${imgPath}.jpg`
+    // document.getElementById('albumArt').src = `file://${imgPath}.jpg`
     let audioPlayer = document.getElementById('audioPlayer')
 
-    //todo: make this dynamic - find out where to get meta info from
-    // const metadata = new MediaMetadata({
-    //     title: fileMetaData.title,
-    //     artist: fileMetaData.albumArtist !== "" ? fileMetaData.albumArtist : fileMetaData.contributingArtist
-    // })
 
-    const currentSong = {
-        title: '',
+    const songObject = {
+        filePath: 'no route',
         duration: '',
         currentPos: ''
     }
@@ -29,27 +24,30 @@ document.getElementById('mp3File').addEventListener('change', function (event) {
         let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
         let songDurationSecs = Math.round(audioPlayer.duration) % 60;
         const formattedDuration = `${songDurationMins}:${songDurationSecs < 10 ? '0' : ''}${songDurationSecs}`;
-        // const currentSong = {
-        //     title: fileMetaData.name,
-        //     duration: songDuration,
-        //     currentPos: currentPosition
-        // }
-        currentSong.title = fileMetaData.name;
-        currentSong.duration = formattedDuration;
-        currentSong.currentPos = '00:00';
-        window.testAPI.setCurrentSong(currentSong)
+        songObject.duration = formattedDuration;
+        songObject.filePath = filePath;
+        window.testAPI.setCurrentSong(songObject)
+
+
+
+        //todo: move time calcs to separate file to reduce code smell 
+        audioPlayer.addEventListener('timeupdate', (event) => {
+            const currentTimeCall = audioPlayer.currentTime;
+            const currentPosSecs = Math.round(currentTimeCall);
+            const currentPosMins = Math.floor(currentPosSecs / 60);
+            const currentPosSecsFormatted = currentPosSecs % 60;
+            const formattedCurrentPos = `${currentPosMins}:${currentPosSecsFormatted < 10 ? '0' : ''}${currentPosSecsFormatted}`;
+
+
+            songObject.currentPos = formattedCurrentPos;
+            window.testAPI.setCurrentSong(songObject);
+        })
+
+
     })
 
-    audioPlayer.addEventListener('timeupdate', (event) => {
-        const currentTimeCall = audioPlayer.currentTime;
-        const currentPosSecs = Math.round(currentTimeCall);
-        const currentPosMins = Math.floor(currentPosSecs / 60);
-        const currentPosSecsFormatted = currentPosSecs % 60;
-        const formattedCurrentPos = `${currentPosMins}:${currentPosSecsFormatted < 10 ? '0' : ''}${currentPosSecsFormatted}`;
-        currentSong.currentPos = formattedCurrentPos;
-
-        window.testAPI.setCurrentSong(currentSong)
-
-    })
 });
 
+window.testAPI.sendForward((data) => {
+    console.log(data);
+});
