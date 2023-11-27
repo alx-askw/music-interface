@@ -10,15 +10,14 @@ document.getElementById('mp3File').addEventListener('change', function (event) {
     const filePath = event.target.files[0].path;
     const imgPath = filePath.split(".")[0];
     document.getElementById('audioPlayer').src = `file://${filePath}`;
-    // document.getElementById('albumArt').src = `file://${imgPath}.jpg`
-    // document.getElementById('albumArt').src = `file://${imgPath}.jpg`
+    // document.getElementById('albumArt').src = `file://placeholder.jpg`
     let audioPlayer = document.getElementById('audioPlayer')
 
 
     const songObject = {
         filePath: 'no route',
-        duration: '',
-        currentPos: ''
+        duration: '00:00',
+        currentPos: '00:00'
     }
     audioPlayer.addEventListener('loadedmetadata', () => {
         let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
@@ -49,5 +48,6 @@ document.getElementById('mp3File').addEventListener('change', function (event) {
 });
 
 window.testAPI.sendForward((data) => {
+    data.artPath !== ' ' ? document.getElementById('albumArt').src = data.artPath : document.getElementById('albumArt').src = ' ';
     console.log(data);
 });

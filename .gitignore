@@ -5,3 +5,6 @@
 /Frontend/exampleMusic/
 /TestApps/
 /Frontend/tempFiles/
+
+/Frontend/.env
+/Frontend/util/

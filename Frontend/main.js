@@ -6,8 +6,7 @@ const path = require('path');
 const startExpressServer = require('./server');
 const fs = require('fs');
 
-
-
+require('dotenv').config()
 const PORT = 3000;
 
 

@@ -7,23 +7,26 @@ const NodeID3 = require('node-id3'); //! don't import whole thing? this library 
 const path = require('path');
 const fs = require('fs');
 
+//todo: add dirty system so the image buffer isn't sent every time
 let currentSong = {
     title: 'No song playing',
     artist: 'No artist',
     duration: '00:00',
-    currentPos: '00:00'
+    currentPos: '00:00',
+    imageBuffer: ''
 };
 
-let tempAlbumArt = '';
+let tempAlbumArt = ' ';
 
 //todo maybe have this fun in a separate file
 async function metaFunc(filePath, mainWindow) {
     await NodeID3.read(filePath, function (err, output) {
         currentSong.title = output.title;
         currentSong.artist = output.artist;
-
+        fs.unlink('./tempFiles/tempImage.jpg', (err) => { if (err); })
         if (output.image && output.image.imageBuffer) {
             try {
+                currentSong.imageBuffer = output.image.imageBuffer;
                 tempAlbumArt = path.join(__dirname + '/' + 'tempFiles' + '/' + 'tempImage.jpg');
                 fs.writeFileSync(tempAlbumArt, output.image.imageBuffer);
             } catch (e) {
@@ -31,7 +34,10 @@ async function metaFunc(filePath, mainWindow) {
                 console.log(e)
             }
         }
-        // mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
+        // let testImage = fs.readFileSync('./exampleMusic/songComp.jpg')
+        let testImage = output.comment.text;
+        currentSong.imageBuffer = testImage;
+        mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
         mainWindow.webContents.send('song-loaded', { songInfo: currentSong, artPath: tempAlbumArt });
     })
 }
@@ -40,6 +46,7 @@ async function metaFunc(filePath, mainWindow) {
 const startExpressServer = (mainWindow) => {
     const server = express();
     server.use(cors())
+
     //! DO NOT PUT THIS LOGIC INSIDE THE ROUTE (MAKING A NEW EVENT PER GET REQ *facepalm*)
     ipcMain.on('set-song', (event, song) => {
         currentSong.currentPos = song.currentPos;
