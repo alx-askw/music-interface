@@ -13,7 +13,8 @@ let currentSong = {
     artist: 'No artist',
     duration: '00:00',
     currentPos: '00:00',
-    imageBuffer: ''
+    imageBuffer: '',
+    currentLyric: ' '
 };
 
 let tempAlbumArt = ' ';
@@ -23,6 +24,7 @@ async function metaFunc(filePath, mainWindow) {
     await NodeID3.read(filePath, function (err, output) {
         currentSong.title = output.title;
         currentSong.artist = output.artist;
+
         fs.unlink('./tempFiles/tempImage.jpg', (err) => { if (err); })
         if (output.image && output.image.imageBuffer) {
             try {
@@ -51,6 +53,7 @@ const startExpressServer = (mainWindow) => {
     ipcMain.on('set-song', (event, song) => {
         currentSong.currentPos = song.currentPos;
         currentSong.duration = song.duration;
+        currentSong.currentLyric = song.currentLyric;
         metaFunc(song.filePath, mainWindow)
 
     })
