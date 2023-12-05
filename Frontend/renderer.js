@@ -13,6 +13,8 @@ document.getElementById('mp3File').addEventListener('change', function (event) {
     let audioPlayer = document.getElementById('audioPlayer')
 
 
+    // document.getElementById('songAndArtist').innerText = ``
+
     const songObject = {
         filePath: 'no route',
         duration: '00:00',
