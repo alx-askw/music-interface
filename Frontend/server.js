@@ -4,10 +4,12 @@ const cors = require('cors');
 const express = require('express');
 const { ipcMain, ipcRenderer } = require('electron');
 const NodeID3 = require('node-id3'); //! don't import whole thing? this library is heavy
-const path = require('path');
-const fs = require('fs');
 
 const { lyricObject } = require('./utils/lrcToLyricObject');
+const { storeImage } = require('./utils/storeCurrentImage');
+
+const path = require('path');
+
 
 //todo: add dirty system so the image buffer isn't sent every time
 let currentSong = {
@@ -21,22 +23,19 @@ let currentSong = {
 
 let tempAlbumArt = ' ';
 
-//todo maybe have this fun in a separate file
+function isImageDirty(title) {
+    return (currentSong.title === title);
+}
+
+
+//todo maybe have this func in a separate file
 async function metaFunc(filePath, mainWindow) {
     await NodeID3.read(filePath, function (err, output) {
         currentSong.title = output.title;
         currentSong.artist = output.artist;
-
-        fs.unlink('./tempFiles/tempImage.jpg', (err) => { if (err); })
-        if (output.image && output.image.imageBuffer) {
-            try {
-                currentSong.imageBuffer = output.image.imageBuffer;
-                tempAlbumArt = path.join(__dirname + '/' + 'tempFiles' + '/' + 'tempImage.jpg');
-                fs.writeFileSync(tempAlbumArt, output.image.imageBuffer);
-            } catch (e) {
-
-                console.log(e)
-            }
+        if (isImageDirty(output.title)) {
+            storeImage(output, currentSong);
+            tempAlbumArt = path.join(__dirname, 'tempFiles', 'tempImage.jpg')
         }
         // let testImage = fs.readFileSync('./exampleMusic/songComp.jpg')
         let testImage = output.comment.text;
