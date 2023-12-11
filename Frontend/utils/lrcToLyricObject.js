@@ -1,11 +1,11 @@
 const fs = require('fs');
 
 async function lyricObject(location) {
+    console.log("lyric object function called")
     try {
         const lrcRegex = /^(\[)(\d*)(:)(.*)(\])(.*)/i;
         const lrcContent = await fs.promises.readFile(location, 'utf8');
         const lines = lrcContent.split('\n');
-
         const lyrics = lines.map(line => {
             const match = line.match(lrcRegex);
             if (match) {

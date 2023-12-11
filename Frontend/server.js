@@ -22,9 +22,11 @@ let currentSong = {
 };
 
 let tempAlbumArt = ' ';
+let lastSong = '';
 
-function isImageDirty(title) {
-    return (currentSong.title === title);
+function isImageDirty(title, last) {
+    // console.log(title, " | ", last)
+    return (last === title);
 }
 
 
@@ -33,9 +35,10 @@ async function metaFunc(filePath, mainWindow) {
     await NodeID3.read(filePath, function (err, output) {
         currentSong.title = output.title;
         currentSong.artist = output.artist;
-        if (isImageDirty(output.title)) {
+        if (!(isImageDirty(output.title, lastSong))) {
             storeImage(output, currentSong);
             tempAlbumArt = path.join(__dirname, 'tempFiles', 'tempImage.jpg')
+            lastSong = currentSong.title;
         }
         // let testImage = fs.readFileSync('./exampleMusic/songComp.jpg')
         let testImage = output.comment.text;

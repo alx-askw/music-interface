@@ -12,6 +12,8 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
     document.getElementById('audioPlayer').src = `file://${filePath}`;
     let audioPlayer = document.getElementById('audioPlayer')
 
+    let lyrics;
+    console.log(lyrics)
 
     const songObject = {
         filePath: 'no route',
@@ -19,13 +21,16 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
         currentPos: '00:00',
         currentLyric: ' '
     }
-    audioPlayer.addEventListener('loadedmetadata', () => {
+    audioPlayer.addEventListener('loadedmetadata', async () => {
         let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
         let songDurationSecs = Math.round(audioPlayer.duration) % 60;
         const formattedDuration = `${songDurationMins}:${songDurationSecs < 10 ? '0' : ''}${songDurationSecs}`;
         songObject.duration = formattedDuration;
         songObject.filePath = filePath;
         window.testAPI.setCurrentSong(songObject)
+
+
+        lyrics = await window.testAPI.lrcObject(lyricPath);
 
         window.testAPI.sendForward((data) => {
             data.artPath !== ' ' ? document.getElementById('albumArt').src = data.artPath : document.getElementById('albumArt').src = ' ';
@@ -47,10 +52,8 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
 
     })
 
-    let lyrics;
-    lyrics = await window.testAPI.lrcObject(lyricPath);
-
     audioPlayer.addEventListener('timeupdate', (event) => {
+        console.log("lyric array: ", lyrics)
         const currentTime = audioPlayer.currentTime;
         const currentLyric = lyrics.find(lyric => lyric.timestamp <= currentTime && currentTime < lyric.timestamp + 1);
         if (currentLyric) {
