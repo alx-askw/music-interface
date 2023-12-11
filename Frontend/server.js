@@ -7,6 +7,8 @@ const NodeID3 = require('node-id3'); //! don't import whole thing? this library 
 const path = require('path');
 const fs = require('fs');
 
+const { lyricObject } = require('./utils/lrcToLyricObject');
+
 //todo: add dirty system so the image buffer isn't sent every time
 let currentSong = {
     title: 'No song playing',
@@ -56,6 +58,15 @@ const startExpressServer = (mainWindow) => {
         currentSong.currentLyric = song.currentLyric;
         metaFunc(song.filePath, mainWindow)
 
+    })
+
+    ipcMain.handle('set-lyric', async (event, loc) => {
+        try {
+            const lyrics = await lyricObject(loc);
+            return lyrics;
+        } catch (err) {
+            console.log('error in ipc setlyric handler in server.js: ', err)
+        }
     })
     //todo: put routes in different file
     server.get('/', async function (req, res) {
