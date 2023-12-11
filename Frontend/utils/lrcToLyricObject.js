@@ -17,7 +17,6 @@ async function lyricObject(location) {
             }
             return null;
         }).filter(Boolean); //remove falsy (NaN, etc)
-
         return lyrics;
     } catch (err) {
         return null;

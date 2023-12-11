@@ -31,6 +31,15 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
 
 
         lyrics = await window.testAPI.lrcObject(lyricPath);
+        if (lyrics === null) {
+            let check = await window.testAPI.lrcDBCheck(filePath);
+            console.log("here 1", check)
+            if (check !== null) {
+                lyrics = await window.testAPI.lrcObject(check);
+                console.log("here 2", lyrics)
+
+            }
+        }
 
         window.testAPI.sendForward((data) => {
             data.artPath !== ' ' ? document.getElementById('albumArt').src = data.artPath : document.getElementById('albumArt').src = ' ';
@@ -60,6 +69,14 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
             document.getElementById('lyrics').innerText = currentLyric.text;
             songObject.currentLyric = currentLyric.text;
         }
+    })
+
+
+    document.getElementById('lrcFile').addEventListener('change', async function (event) {
+        const lrcPath = event.target.files[0].path;
+        let songName = filePath;
+        const associateObj = { lrcPath, songName };
+        let addLyric = await window.testAPI.addLrcToDB(associateObj)
     })
 
 });

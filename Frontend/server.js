@@ -4,9 +4,12 @@ const cors = require('cors');
 const express = require('express');
 const { ipcMain, ipcRenderer } = require('electron');
 const NodeID3 = require('node-id3'); //! don't import whole thing? this library is heavy
+const { JsonDB, Config } = require('node-json-db');
+
 
 const { lyricObject } = require('./utils/lrcToLyricObject');
 const { storeImage } = require('./utils/storeCurrentImage');
+const { songPersistence, checkSongLrc } = require('./utils/songDBFuncs.js');
 
 const path = require('path');
 
@@ -53,6 +56,11 @@ const startExpressServer = (mainWindow) => {
     const server = express();
     server.use(cors())
 
+    //todo; add database creation here on start up
+
+    // var db = new JsonDB(new Config("./userFiles/testDatabase", true, false, '/'));
+
+
     //! DO NOT PUT THIS LOGIC INSIDE THE ROUTE (MAKING A NEW EVENT PER GET REQ *facepalm*)
     ipcMain.on('set-song', (event, song) => {
         currentSong.currentPos = song.currentPos;
@@ -67,9 +75,19 @@ const startExpressServer = (mainWindow) => {
             const lyrics = await lyricObject(loc);
             return lyrics;
         } catch (err) {
-            console.log('error in ipc setlyric handler in server.js: ', err)
+            console.log('error in ipc set lyric handler in server.js: ', err)
         }
     })
+
+    ipcMain.handle('lrc-db', (event, associateObj) => {
+        songPersistence(associateObj);
+    })
+
+    ipcMain.handle('lrc-check', async (event, song) => {
+        let check = await checkSongLrc(song);
+        return check;
+    })
+
     //todo: put routes in different file
     server.get('/', async function (req, res) {
         await res.send(currentSong);

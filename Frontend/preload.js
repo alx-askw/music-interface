@@ -16,7 +16,9 @@ const TESTAPI = {
             console.log('error in lrcObject invokation in preload.js: ', err)
             return null;
         }
-    }
+    },
+    addLrcToDB: (associateObj) => ipcRenderer.invoke('lrc-db', associateObj),
+    lrcDBCheck: (song) => ipcRenderer.invoke('lrc-check', song)
 }
 
 
