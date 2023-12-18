@@ -74,6 +74,8 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
             let percent = (event.clientX - seekDomRect.left) / seekDomRect.width;
             audioPlayer.currentTime = percent * audioPlayer.duration;
 
+            //todo: add time/duration numbers to seekbar so it can be seen visually
+
         })
 
 

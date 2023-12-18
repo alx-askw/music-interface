@@ -3,7 +3,7 @@ const fs = require('fs');
 async function lyricObject(location) {
     console.log("lyric object function called")
     try {
-        const lrcRegex = /^(\[)(\d*)(:)(.*)(\])(.*)/i;
+        const lrcRegex = /^(\[)(\d*)(:)(.*)(\])(.*)/i; //*Src: https://stackoverflow.com/questions/11510012/any-javascript-parser-for-lrc
         const lrcContent = await fs.promises.readFile(location, 'utf8');
         const lines = lrcContent.split('\n');
         const lyrics = lines.map(line => {
