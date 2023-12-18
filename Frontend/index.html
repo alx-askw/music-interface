@@ -19,16 +19,23 @@
         </div>
         <div>
             <!-- <h2 id="songAndArtist">------------</h2> -->
-            <audio controls id="audioPlayer"></audio>
+            <!-- <audio controls id="audioPlayer"></audio> -->
+            <audio id="audioPlayer"></audio>
+            <button onclick="document.getElementById('audioPlayer').play()">Play</button>
+            <button onclick="document.getElementById('audioPlayer').pause()">Pause</button>
         </div>
         <div class="controls">
             <!-- <button onclick="document.getElementById('audioPlayer').play()">Play</button> -->
+
+            <div id="seekbar">
+                <div id="seekbarFill"></div>
+            </div>
         </div>
         <div>
-
         </div>
         <div id="response">
         </div>
+
         <div>
             <h3 id="lyrics">----</h3>
         </div>

@@ -21,9 +21,13 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
         currentPos: '00:00',
         currentLyric: ' '
     }
+    let songDurationSecs = 0;
+    let currentPosSecs = 0;
+    let tempDurationSecs = 0;
     audioPlayer.addEventListener('loadedmetadata', async () => {
         let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
-        let songDurationSecs = Math.round(audioPlayer.duration) % 60;
+        songDurationSecs = Math.round(audioPlayer.duration) % 60;
+        tempDurationSecs = document.getElementById('audioPlayer').duration;
         const formattedDuration = `${songDurationMins}:${songDurationSecs < 10 ? '0' : ''}${songDurationSecs}`;
         songObject.duration = formattedDuration;
         songObject.filePath = filePath;
@@ -48,7 +52,7 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
         //todo: move time calcs to separate file to reduce code smell 
         audioPlayer.addEventListener('timeupdate', (event) => {
             const currentTimeCall = audioPlayer.currentTime;
-            const currentPosSecs = Math.round(currentTimeCall);
+            currentPosSecs = Math.round(currentTimeCall);
             const currentPosMins = Math.floor(currentPosSecs / 60);
             const currentPosSecsFormatted = currentPosSecs % 60;
             const formattedCurrentPos = `${currentPosMins}:${currentPosSecsFormatted < 10 ? '0' : ''}${currentPosSecsFormatted}`;
@@ -56,6 +60,20 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
 
             songObject.currentPos = formattedCurrentPos;
             window.testAPI.setCurrentSong(songObject);
+
+            //*Colouring in seekbar
+            let songPercent = (currentPosSecs / tempDurationSecs) * 100;
+            document.getElementById('seekbarFill').style.width = songPercent + '%';
+        })
+
+        //https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
+        //https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+        document.getElementById('seekbar').addEventListener('click', (event) => {
+            let seekDomRect = document.getElementById('seekbar').getBoundingClientRect();
+            // console.log(seekDomRect);
+            let percent = (event.clientX - seekDomRect.left) / seekDomRect.width;
+            audioPlayer.currentTime = percent * audioPlayer.duration;
+
         })
 
 
@@ -69,6 +87,7 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
             document.getElementById('lyrics').innerText = currentLyric.text;
             songObject.currentLyric = currentLyric.text;
         }
+
     })
 
 
@@ -77,6 +96,10 @@ document.getElementById('mp3File').addEventListener('change', async function (ev
         let songName = filePath;
         const associateObj = { lrcPath, songName };
         let addLyric = await window.testAPI.addLrcToDB(associateObj)
+    })
+
+    document.getElementById('audioPlayer').addEventListener('timeupdate', (event) => {
+
     })
 
 });
