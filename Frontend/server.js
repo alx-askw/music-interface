@@ -2,8 +2,11 @@
 //server.js
 const cors = require('cors');
 const express = require('express');
-const { ipcMain, ipcRenderer } = require('electron');
+const { ipcMain } = require('electron');
 const NodeID3 = require('node-id3'); //! don't import whole thing? this library is heavy
+
+
+const chokidar = require('chokidar'); //https://www.npmjs.com/package/chokidar?activeTab=readme
 
 const { lyricObject } = require('./utils/lrcToLyricObject');
 const { storeImage } = require('./utils/storeCurrentImage');
@@ -30,10 +33,12 @@ function isImageDirty(title, last) {
     return (last === title);
 }
 
-
+async function updateImage(imgPath, mainWindow) {
+    await mainWindow.webContents.send('update-image', imgPath)
+}
 //todo maybe have this func in a separate file
 async function metaFunc(filePath, mainWindow) {
-    console.log(filePath, " in metafUnc")
+    // console.log(filePath, " in metafUnc")
     await NodeID3.read(filePath, function (err, output) {
         // if(output !== null){
         currentSong.title = output.title;
@@ -48,7 +53,18 @@ async function metaFunc(filePath, mainWindow) {
         currentSong.imageBuffer = testImage;
         mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
         mainWindow.webContents.send('song-loaded', { songInfo: currentSong, artPath: tempAlbumArt });
-    // }
+        // }
+        //todo: keep or remove? 
+        // if (output.image && output.image.imageBuffer) {
+        //     try {
+        //         let binTest = Buffer.from(output.image.imageBuffer);
+        //         let testImgData = new Blob([binTest.buffer], { type: 'image/png' })
+        //         let testLink = URL.createObjectURL(testImgData);
+        //         updateImage(testLink, mainWindow);
+        //     } catch (e) {
+        //         console.log("Error in metaFunc: ", e)
+        //     }
+        // }
     })
 }
 
@@ -63,13 +79,22 @@ const startExpressServer = (mainWindow) => {
 
 
     //! DO NOT PUT THIS LOGIC INSIDE THE ROUTE (MAKING A NEW EVENT PER GET REQ *facepalm*)
-    ipcMain.handle('set-song', async (event, song) =>{
+    ipcMain.handle('set-song', async (event, song) => {
         currentSong.currentPos = song.currentPos;
         currentSong.duration = song.duration;
         currentSong.currentLyric = song.currentLyric;
         // console.log("in ipcMain handle", song )
         await metaFunc(song.filePath, mainWindow);
     })
+
+    //todo: keep of remove
+    // const tempFilesDir = path.join(__dirname, 'tempFiles');
+    // console.log("test", tempFilesDir)
+    // chokidar.watch(tempFilesDir).on('all', (event, path) => {
+    //     // let imgPath = path.join(__dirname, 'tempFiles', 'tempImage.jpg');
+    //     updateImage(path);
+
+    // })
 
     ipcMain.handle('set-lyric', async (event, loc) => {
         try {

@@ -7,7 +7,7 @@
 - Make the application look nicer
 - Come up with a name
 - Add a custom icon
-- Add multiple backend routes (if someone wants lyrics and song name that's a route, just name that's a route, etc). Some Examples:
+- Add multiple backend routes. Some Examples:
   - Just Current Time, Duration, Artist, and Song name
   - Everything, same as above, but image buffer, lyrics
   - Is music paused/Played
