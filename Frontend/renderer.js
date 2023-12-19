@@ -109,7 +109,7 @@
 
 
 
-
+//! I dislike how these global variables are set out
 const audioPlayer = document.getElementById('audioPlayer')
 
 let lyrics;
@@ -122,11 +122,20 @@ const songObject = {
 let songDurationSecs = 0;
 let currentPosSecs = 0;
 let tempDurationSecs = 0;
+let formattedCurrentPos = '0:00';
+
 
 let lyricPath = '';
+let filePath = '';
 
 async function handleLoadedMetaData(event) {
     tempDurationSecs = document.getElementById('audioPlayer').duration;
+    let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
+
+    const formattedDuration = `${songDurationMins}:${songDurationSecs < 10 ? '0' : ''}${songDurationSecs}`;
+    songObject.duration = formattedDuration;
+    songObject.filePath = filePath;
+    songObject.currentPos = formattedCurrentPos;
 
 
     lyrics = await window.testAPI.lrcObject(lyricPath);
@@ -138,6 +147,10 @@ async function handleLoadedMetaData(event) {
         }
     }
 
+    window.testAPI.sendForward((data) => {
+        data.artPath !== ' ' ? document.getElementById('albumArt').src = data.artPath : document.getElementById('albumArt').src = ' ';
+    });
+
 
 }
 
@@ -147,7 +160,8 @@ async function handleTimeUpdates(event){
     currentPosSecs = Math.round(currentTimeCall);
     const currentPosMins = Math.floor(currentPosSecs / 60);
     const currentPosSecsFormatted = currentPosSecs % 60;
-    const formattedCurrentPos = `${currentPosMins}:${currentPosSecsFormatted < 10 ? '0' : ''}${currentPosSecsFormatted}`;
+    formattedCurrentPos = `${currentPosMins}:${currentPosSecsFormatted < 10 ? '0' : ''}${currentPosSecsFormatted}`;
+    songObject.currentPos = formattedCurrentPos;
 
     //*Colouring in seekbar
     let songPercent = (currentPosSecs / tempDurationSecs) * 100;
@@ -159,6 +173,7 @@ async function handleTimeUpdates(event){
             document.getElementById('lyrics').innerText = currentLyric.text;
             songObject.currentLyric = currentLyric.text;
         }
+    window.testAPI.setCurrentSong(songObject);
 
 }
 
@@ -175,7 +190,7 @@ async function handleSeekbarClick(event){
 }
 
 async function handleChanges (event){
-    const filePath = event.target.files[0].path;
+    filePath = event.target.files[0].path;
     lyricPath = filePath.split(".")[0] + '.lrc';
     document.getElementById('audioPlayer').src = `file://${filePath}`;
 

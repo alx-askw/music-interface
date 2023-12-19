@@ -10,8 +10,9 @@ function storeImage(output, currentSong) {
     if (!fs.existsSync(tempFilesDir)) {
         fs.mkdirSync(path.join(tempFilesDir));
     }
+    console.log("here", output)
     // fs.unlink('../tempFiles/tempImage.jpg', (err) => { if (err); })
-    fs.unlink(path.join(__dirname, '..', 'tempFiles', 'tempImage.jpg'), (err) => { if (err); })
+    fs.unlink(path.join(__dirname, '..', 'tempFiles', 'tempImage.jpg'), (err) => { if (err) console.log("err"); })
 
     if (output.image && output.image.imageBuffer) {
         try {
@@ -20,7 +21,7 @@ function storeImage(output, currentSong) {
             // console.log(tempAlbumArt)
             fs.writeFileSync(tempAlbumArt, output.image.imageBuffer);
         } catch (e) {
-            // console.log("Error in storeCurrentImage: ", e)
+            console.log("Error in storeCurrentImage: ", e)
         }
     }
 }
