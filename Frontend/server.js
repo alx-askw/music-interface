@@ -4,8 +4,6 @@ const cors = require('cors');
 const express = require('express');
 const { ipcMain, ipcRenderer } = require('electron');
 const NodeID3 = require('node-id3'); //! don't import whole thing? this library is heavy
-const { JsonDB, Config } = require('node-json-db');
-
 
 const { lyricObject } = require('./utils/lrcToLyricObject');
 const { storeImage } = require('./utils/storeCurrentImage');
@@ -35,7 +33,9 @@ function isImageDirty(title, last) {
 
 //todo maybe have this func in a separate file
 async function metaFunc(filePath, mainWindow) {
+    console.log(filePath, " in metafUnc")
     await NodeID3.read(filePath, function (err, output) {
+        // if(output !== null){
         currentSong.title = output.title;
         currentSong.artist = output.artist;
         if (!(isImageDirty(output.title, lastSong))) {
@@ -48,6 +48,7 @@ async function metaFunc(filePath, mainWindow) {
         currentSong.imageBuffer = testImage;
         mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
         mainWindow.webContents.send('song-loaded', { songInfo: currentSong, artPath: tempAlbumArt });
+    // }
     })
 }
 
@@ -62,18 +63,20 @@ const startExpressServer = (mainWindow) => {
 
 
     //! DO NOT PUT THIS LOGIC INSIDE THE ROUTE (MAKING A NEW EVENT PER GET REQ *facepalm*)
-    ipcMain.on('set-song', (event, song) => {
+    ipcMain.handle('set-song', async (event, song) =>{
         currentSong.currentPos = song.currentPos;
         currentSong.duration = song.duration;
         currentSong.currentLyric = song.currentLyric;
-        metaFunc(song.filePath, mainWindow)
-
+        console.log("in ipcMain handle", song )
+        await metaFunc(song.filePath, mainWindow);
     })
 
     ipcMain.handle('set-lyric', async (event, loc) => {
         try {
-            const lyrics = await lyricObject(loc);
-            return lyrics;
+            console.log(loc)
+            // const lyrics = await lyricObject(loc);
+            // return lyrics; 
+            return lyrics = await lyricObject(loc);
         } catch (err) {
             console.log('error in ipc set lyric handler in server.js: ', err)
         }

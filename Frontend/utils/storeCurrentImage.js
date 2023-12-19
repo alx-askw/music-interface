@@ -20,7 +20,7 @@ function storeImage(output, currentSong) {
             // console.log(tempAlbumArt)
             fs.writeFileSync(tempAlbumArt, output.image.imageBuffer);
         } catch (e) {
-            console.log("Error in storeCurrentImage: ", e)
+            // console.log("Error in storeCurrentImage: ", e)
         }
     }
 }
