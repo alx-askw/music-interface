@@ -67,15 +67,12 @@ const startExpressServer = (mainWindow) => {
         currentSong.currentPos = song.currentPos;
         currentSong.duration = song.duration;
         currentSong.currentLyric = song.currentLyric;
-        console.log("in ipcMain handle", song )
+        // console.log("in ipcMain handle", song )
         await metaFunc(song.filePath, mainWindow);
     })
 
     ipcMain.handle('set-lyric', async (event, loc) => {
         try {
-            console.log(loc)
-            // const lyrics = await lyricObject(loc);
-            // return lyrics; 
             return lyrics = await lyricObject(loc);
         } catch (err) {
             console.log('error in ipc set lyric handler in server.js: ', err)

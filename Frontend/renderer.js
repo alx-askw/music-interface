@@ -178,7 +178,6 @@ async function handleTimeUpdates(event){
 }
 
 async function handleSeekbarClick(event){
-        document.getElementById('seekbar').addEventListener('click', (event) => {
             let seekDomRect = document.getElementById('seekbar').getBoundingClientRect();
             // console.log(seekDomRect);
             let percent = (event.clientX - seekDomRect.left) / seekDomRect.width;
@@ -186,7 +185,26 @@ async function handleSeekbarClick(event){
 
             //todo: add time/duration numbers to seekbar so it can be seen visually
 
-        })
+}
+
+
+
+async function handleLrcChanges(event){
+    const lrcPath = event.target.files[0].path;
+    let songName = filePath;
+    const associateObj = { lrcPath, songName };
+    let addLyric = await window.testAPI.addLrcToDB(associateObj)
+
+    //!This logic is used twice - not good code - 
+    //todo: package into it's own function to cleaner code
+    lyrics = await window.testAPI.lrcObject(lyricPath);
+    if (lyrics === null) {
+        let check = await window.testAPI.lrcDBCheck(filePath);
+        if (check !== null) {
+            lyrics = await window.testAPI.lrcObject(check);
+
+        }
+    }
 }
 
 async function handleChanges (event){
@@ -198,10 +216,13 @@ async function handleChanges (event){
     audioPlayer.removeEventListener('loadedmetadata', handleLoadedMetaData);
     audioPlayer.removeEventListener('timeupdate', handleTimeUpdates);
     document.getElementById('seekbar').removeEventListener('click', handleSeekbarClick);
+    document.getElementById('lrcFile').removeEventListener('change', handleLrcChanges);
 
     audioPlayer.addEventListener('loadedmetadata', handleLoadedMetaData);
     audioPlayer.addEventListener('timeupdate', handleTimeUpdates);
     document.getElementById('seekbar').addEventListener('click', handleSeekbarClick);
+    document.getElementById('lrcFile').addEventListener('change', handleLrcChanges);
+
 
 }
 

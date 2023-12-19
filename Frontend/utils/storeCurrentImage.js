@@ -11,7 +11,7 @@ function storeImage(output, currentSong) {
         fs.mkdirSync(path.join(tempFilesDir));
     }
     console.log("here", output)
-    // fs.unlink('../tempFiles/tempImage.jpg', (err) => { if (err); })
+    
     fs.unlink(path.join(__dirname, '..', 'tempFiles', 'tempImage.jpg'), (err) => { if (err) console.log("err"); })
 
     if (output.image && output.image.imageBuffer) {
