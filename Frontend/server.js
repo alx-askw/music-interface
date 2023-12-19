@@ -5,9 +5,6 @@ const express = require('express');
 const { ipcMain } = require('electron');
 const NodeID3 = require('node-id3'); //! don't import whole thing? this library is heavy
 
-
-const chokidar = require('chokidar'); //https://www.npmjs.com/package/chokidar?activeTab=readme
-
 const { lyricObject } = require('./utils/lrcToLyricObject');
 const { storeImage } = require('./utils/storeCurrentImage');
 const { songPersistence, checkSongLrc } = require('./utils/songDBFuncs.js');
@@ -54,17 +51,19 @@ async function metaFunc(filePath, mainWindow) {
         mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
         mainWindow.webContents.send('song-loaded', { songInfo: currentSong, artPath: tempAlbumArt });
         // }
-        //todo: keep or remove? 
-        // if (output.image && output.image.imageBuffer) {
-        //     try {
-        //         let binTest = Buffer.from(output.image.imageBuffer);
-        //         let testImgData = new Blob([binTest.buffer], { type: 'image/png' })
-        //         let testLink = URL.createObjectURL(testImgData);
-        //         updateImage(testLink, mainWindow);
-        //     } catch (e) {
-        //         console.log("Error in metaFunc: ", e)
-        //     }
-        // }
+        //todo: Move func to separate file
+        if (output.image && output.image.imageBuffer) {
+            try {
+                //*Src:
+                //https://stackoverflow.com/questions/20756042/how-to-display-an-image-stored-as-byte-array-in-html-javascript
+                //https://stackoverflow.com/questions/6182315/how-can-i-do-base64-encoding-in-node-js
+                let b64 = Buffer.from(output.image.imageBuffer).toString('base64')
+                let link = `data:image/png;base64,${b64}`;
+                updateImage(link, mainWindow)
+            } catch (e) {
+                console.log("Error in metaFunc: ", e)
+            }
+        }
     })
 }
 
@@ -73,9 +72,6 @@ const startExpressServer = (mainWindow) => {
     const server = express();
     server.use(cors())
 
-    //todo; add database creation here on start up
-
-    // var db = new JsonDB(new Config("./userFiles/testDatabase", true, false, '/'));
 
 
     //! DO NOT PUT THIS LOGIC INSIDE THE ROUTE (MAKING A NEW EVENT PER GET REQ *facepalm*)
@@ -87,14 +83,6 @@ const startExpressServer = (mainWindow) => {
         await metaFunc(song.filePath, mainWindow);
     })
 
-    //todo: keep of remove
-    // const tempFilesDir = path.join(__dirname, 'tempFiles');
-    // console.log("test", tempFilesDir)
-    // chokidar.watch(tempFilesDir).on('all', (event, path) => {
-    //     // let imgPath = path.join(__dirname, 'tempFiles', 'tempImage.jpg');
-    //     updateImage(path);
-
-    // })
 
     ipcMain.handle('set-lyric', async (event, loc) => {
         try {

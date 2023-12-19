@@ -16,6 +16,8 @@
 - Tests
 - Test on Linux
 - Write documentation
+- Remove storeCurrentImage functions as they are now obsolete
+- Clean code for DoD
 
 ### Beyond 1.0
 
@@ -26,3 +28,4 @@
 - Conditional rendering;
   - Should lyrics displayed (toggle or if no present then the space isn't used)
 - Add API for being able to control app from 3rd party rather than just request song information
+- Perhaps overhaul backend - this app won't be hosted, so middleware services will have to be created for communicated with hosted services (making requests to the app is currently just on local host)
