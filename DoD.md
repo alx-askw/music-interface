@@ -35,3 +35,5 @@
 - song fading (fading songs into one another for seamless transitions)
 - visualiser 
 - equaliser
+- more playlist functionality:
+  - ability to switch songs around
