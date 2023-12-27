@@ -9,3 +9,4 @@ bugs:
 - not so much a bug but perhaps have a boundary for lyrics. So the last lyric of the song or verse only stays up for a few secs after its timestamp
 - DEPRECATED add error handling to image writing
   https://www.electronjs.org/docs/latest/tutorial/application-debugging
+- Potential bug with adding more than one LRC file to an MP3. Check it out as it might only be potential

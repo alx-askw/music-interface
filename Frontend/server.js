@@ -6,7 +6,6 @@ const { ipcMain } = require('electron');
 const NodeID3 = require('node-id3'); //! don't import whole thing? this library is heavy
 
 const { lyricObject } = require('./utils/lrcToLyricObject');
-const { storeImage } = require('./utils/storeCurrentImage');
 const { songPersistence, checkSongLrc } = require('./utils/songDBFuncs.js');
 
 const path = require('path');
@@ -23,12 +22,6 @@ let currentSong = {
 };
 
 let tempAlbumArt = ' ';
-let lastSong = '';
-
-function isImageDirty(title, last) {
-    // console.log(title, " | ", last)
-    return (last === title);
-}
 
 async function updateImage(imgPath, mainWindow) {
     await mainWindow.webContents.send('update-image', imgPath)
@@ -37,20 +30,10 @@ async function updateImage(imgPath, mainWindow) {
 async function metaFunc(filePath, mainWindow) {
     // console.log(filePath, " in metafUnc")
     await NodeID3.read(filePath, function (err, output) {
-        // if(output !== null){
         currentSong.title = output.title;
         currentSong.artist = output.artist;
-        if (!(isImageDirty(output.title, lastSong))) {
-            storeImage(output, currentSong);
-            tempAlbumArt = path.join(__dirname, 'tempFiles', 'tempImage.jpg')
-            lastSong = currentSong.title;
-        }
-        // let testImage = fs.readFileSync('./exampleMusic/songComp.jpg')
-        let testImage = output.comment.text;
-        currentSong.imageBuffer = testImage;
         mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
         mainWindow.webContents.send('song-loaded', { songInfo: currentSong, artPath: tempAlbumArt });
-        // }
         //todo: Move func to separate file
         if (output.image && output.image.imageBuffer) {
             try {

@@ -14,7 +14,8 @@
   - Everything, same as above, but image buffer, lyrics
   - Is music paused/Played
   - Volume
-- Add custom controls (mainly need to work on seek bar)
+- Add custom controls (mainly need to work on seek bar) (https://www.w3schools.com/tags/ref_av_dom.asp)
+  - Add icon to mute button to show whether music is muted or not
 - Tests
 - Test on Linux
 - Write documentation
@@ -37,3 +38,10 @@
 - equaliser
 - more playlist functionality:
   - ability to switch songs around
+- user code?
+- Custom Routes?
+- Handshakes?
+- Settings persist between sessions (conf file?)
+  - volume
+  - what was being listened to last
+  - how far into the last item 

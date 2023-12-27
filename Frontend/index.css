@@ -29,3 +29,8 @@
     background-color: #4caf50;
     width: 0;
 }
+
+#muteBtn {
+    background-color: #4caf50;
+    color: white;
+}
