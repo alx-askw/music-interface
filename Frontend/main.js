@@ -26,8 +26,15 @@ function createWindow() {
     mainWindow.setThumbarButtons([
         {
             icon: null,
-            click() { console.log('thumbar button pressed') }
+            click() { console.log('thumbar button 1 pressed') },
+            tooltip: 'Test Btn 1'
+        },
+        {
+            icon: null,
+            click() { console.log('thumbar button 2 pressed') },
+            tooltip: 'Test Btn 2'
         }
+
     ])
 
     mainWindow.loadFile('index.html');

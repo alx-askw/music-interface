@@ -10,3 +10,12 @@ bugs:
 - DEPRECATED add error handling to image writing
   https://www.electronjs.org/docs/latest/tutorial/application-debugging
 - Potential bug with adding more than one LRC file to an MP3. Check it out as it might only be potential
+- Dynamically find port, just incase 3000 is being used. maybe add 1 each time
+
+
+things to consider:
+  - Not bugs, just notes!
+  - Does the main process and server process need to be separate:
+    - Or does more of the functionality need to be in the main process - though MOST functionality in that file is for routes and HTTP REQS:
+      - LRC object maker could be in the main process?
+    - Or does the main.js file just deal with initial rendering plus thumbar?

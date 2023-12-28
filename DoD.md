@@ -46,3 +46,20 @@
   - volume
   - what was being listened to last
   - how far into the last item 
+
+
+
+
+### Resources to check out:
+
+#### nativeImage
+  - Talks about icon sizes for the tray buttons.
+  - https://www.electronjs.org/docs/latest/api/native-image
+
+#### BrowserWindow
+  - docs for adding thumbar ('thumbnail toolbar')
+  - https://www.electronjs.org/docs/latest/api/browser-window#winsetthumbarbuttonsbuttons-windows
+
+#### Taskbar Customization
+  - As it says on the tin 
+  - https://www.electronjs.org/docs/latest/tutorial/windows-taskbar

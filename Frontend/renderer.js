@@ -116,9 +116,16 @@ function volumeControl() {
   const muteButton = document.getElementById('muteBtn');
   volume !== true ? audioPlayer.muted = true : audioPlayer.muted = false;
   muteButton.style.backgroundColor = audioPlayer.muted ? 'grey' : 'green';
-
-  console.log(volume)
+  console.log(audioPlayer.volume);
 };
+
+function handleVolumeSlider(event) {
+  let volDomObj = document.getElementById('volumeSlider').getBoundingClientRect();
+  let percent = (event.clientX - volDomObj.left) / volDomObj.width;
+  audioPlayer.volume = percent;
+  document.getElementById('volumeSliderFill').style.width = `${percent * 100}%`;
+};
+
 
 async function handleChanges(event) {
   filePath = event.target.files[0].path;
@@ -140,3 +147,6 @@ async function handleChanges(event) {
 // entry point into frontend event listeners
 document.getElementById("mp3File").addEventListener("change", handleChanges);
 document.getElementById('muteBtn').addEventListener('click', volumeControl);
+
+document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
+document.getElementById('volumeSliderFill').style.width = '100%';
