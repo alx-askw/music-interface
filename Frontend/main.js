@@ -23,6 +23,13 @@ function createWindow() {
         }
     });
 
+    mainWindow.setThumbarButtons([
+        {
+            icon: null,
+            click() { console.log('thumbar button pressed') }
+        }
+    ])
+
     mainWindow.loadFile('index.html');
 
     mainWindow.on('closed', function () {

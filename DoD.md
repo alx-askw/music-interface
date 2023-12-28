@@ -16,6 +16,7 @@
   - Volume
 - Add custom controls (mainly need to work on seek bar) (https://www.w3schools.com/tags/ref_av_dom.asp)
   - Add icon to mute button to show whether music is muted or not
+  - Tray buttons ('Thumbar Buttons')
 - Tests
 - Test on Linux
 - Write documentation
