@@ -46,7 +46,7 @@ async function handleLoadedMetaData(event) {
 
 
   imagePath = await window.testAPI.updateImage();
-  console.log("image path in renderer: ", imagePath);
+  // console.log("image path in renderer: ", imagePath);
   if (imagePath) {
     // document.getElementById('albumArt').src = imagePath;
   }
@@ -116,7 +116,6 @@ function volumeControl() {
   const muteButton = document.getElementById('muteBtn');
   volume !== true ? audioPlayer.muted = true : audioPlayer.muted = false;
   muteButton.style.backgroundColor = audioPlayer.muted ? 'grey' : 'green';
-  console.log(audioPlayer.volume);
 };
 
 function handleVolumeSlider(event) {
@@ -124,6 +123,7 @@ function handleVolumeSlider(event) {
   let percent = (event.clientX - volDomObj.left) / volDomObj.width;
   audioPlayer.volume = percent;
   document.getElementById('volumeSliderFill').style.width = `${percent * 100}%`;
+  console.log(audioPlayer.volume);
 };
 
 
@@ -150,3 +150,24 @@ document.getElementById('muteBtn').addEventListener('click', volumeControl);
 
 document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
 document.getElementById('volumeSliderFill').style.width = '100%';
+
+
+const plTestFunc = async () => {
+  const list = document.getElementById('playList');
+  let plTets = await window.testAPI.playlistRead('t');
+  Object.keys(plTets).forEach(function (key, index) {
+    let testLI = document.createElement('li');
+    testLI.appendChild(document.createTextNode(plTets[key]))
+    list.appendChild(testLI);
+  })
+}
+
+
+plTestFunc();
+
+//! can all events be listened to like this?
+//! Though this will clean like 8 LoCs
+//! This is not standard?
+// audioPlayer.onended = function () {
+//   console.log('song ended')
+// }

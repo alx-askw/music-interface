@@ -15,7 +15,10 @@ bugs:
 
 things to consider:
   - Not bugs, just notes!
+
   - Does the main process and server process need to be separate:
     - Or does more of the functionality need to be in the main process - though MOST functionality in that file is for routes and HTTP REQS:
       - LRC object maker could be in the main process?
     - Or does the main.js file just deal with initial rendering plus thumbar?
+  - You can added event listeners with just 'htmlTag.onevent = function() {do something};';
+    - is my removing and readding event listeners an old/bad approach?

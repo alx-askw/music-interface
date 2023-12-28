@@ -25,6 +25,8 @@ const TESTAPI = {
   },
   addLrcToDB: (associateObj) => ipcRenderer.invoke("lrc-db", associateObj),
   lrcDBCheck: (song) => ipcRenderer.invoke("lrc-check", song),
+
+  playlistRead: (t) => ipcRenderer.invoke('pl-read', t)
 };
 
 contextBridge.exposeInMainWorld("testAPI", TESTAPI);

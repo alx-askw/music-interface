@@ -8,6 +8,8 @@ const NodeID3 = require('node-id3'); //! don't import whole thing? this library 
 const { lyricObject } = require('./utils/lrcToLyricObject');
 const { songPersistence, checkSongLrc } = require('./utils/songDBFuncs.js');
 
+const { playlistRead } = require('./utils/playlistFuncs.js');
+
 const path = require('path');
 
 
@@ -83,6 +85,12 @@ const startExpressServer = (mainWindow) => {
         let check = await checkSongLrc(song);
         return check;
     })
+
+    ipcMain.handle('pl-read', async (event) => {
+        let test = await playlistRead();
+        return test;
+    })
+
 
     //todo: put routes in different file
     server.get('/', async function (req, res) {
