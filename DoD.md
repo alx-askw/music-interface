@@ -3,7 +3,7 @@
 ### Must Haves for 1.0
 
 - Fix bugs (see bugs.md)
-- Autoplay?
+- DONE Autoplay?
 - Ability to repeat songs on a loop automatically
 - Basic playlist system (JSON DB)
 - Make the application look nicer

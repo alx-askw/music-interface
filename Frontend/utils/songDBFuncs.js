@@ -3,7 +3,7 @@ const path = require('path');
 
 //*https://www.npmjs.com/package/node-json-db
 
-const pathToDB = path.join(__dirname, '..', 'userFiles', 'testDatabase')
+const pathToDB = path.join(__dirname, '..', 'userFiles', 'songObjects')
 
 var db = new JsonDB(new Config(pathToDB, true, false, '/'));
 
