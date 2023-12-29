@@ -144,8 +144,10 @@ function songChangeHandle(event) {
       if (event.target.id === 'backBtn') {
         playlistPointer === 0 ? playlistPointer = (playlist.length - 1) : playlistPointer--;
         eventHandlersMP3();
-      } else {
-        alert(false);
+      }
+      if (event.target.id === 'forwardBtn') {
+        playlistPointer === (playlist.length - 1) ? playlistPointer = 0 : playlistPointer++;
+        eventHandlersMP3();
       }
       break;
     default:
@@ -182,6 +184,9 @@ async function eventHandlersMP3(event) {
 
   document.getElementById('backBtn').removeEventListener('click', songChangeHandle);
   document.getElementById('backBtn').addEventListener('click', songChangeHandle);
+
+  document.getElementById('forwardBtn').removeEventListener('click', songChangeHandle);
+  document.getElementById('forwardBtn').addEventListener('click', songChangeHandle);
 
   audioPlayer.addEventListener("loadedmetadata", handleLoadedMetaData);
   audioPlayer.addEventListener("timeupdate", handleTimeUpdates);
