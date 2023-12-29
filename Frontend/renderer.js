@@ -151,7 +151,8 @@ function songChangeHandle(event) {
       }
       break;
     default:
-      alert('adding buttons')
+      //Probably not this serious but it would be concerning
+      alert('Somethings has gone terribly wrong!')
       break;
   }
 }
@@ -221,14 +222,23 @@ async function handleChanges(event) {
       break;
   }
 
-
-  // alert(isNaN(audioPlayer.duration))
-
-  if (isNaN(audioPlayer.duration)) {
+  //if just one song is loaded, it will load next on change event
+  if (isNaN(audioPlayer.duration) | audioPlayer.ended) {
     eventHandlersMP3();
   }
 
   console.log(playlist)
+
+
+  const playlistULTag = document.getElementById('playlist');
+  playlistULTag.innerHTML = '';
+  playlist.forEach(function (e) {
+    const testElement = document.createTextNode(e);
+    const entry = document.createElement('li');
+    entry.appendChild(testElement)
+    playlistULTag.appendChild(entry);
+  })
+
 
 }
 
