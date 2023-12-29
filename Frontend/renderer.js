@@ -132,9 +132,26 @@ function handleVolumeSlider(event) {
 };
 
 
-function songChangeHandle() {
-  playlistPointer++
-  eventHandlersMP3();
+function songChangeHandle(event) {
+  console.log("change event", event.type, event.target.id)
+  const invokeAction = event.type;
+  switch (invokeAction) {
+    case ('ended'):
+      playlistPointer++
+      eventHandlersMP3();
+      break;
+    case ('click'):
+      if (event.target.id === 'backBtn') {
+        playlistPointer === 0 ? playlistPointer = (playlist.length - 1) : playlistPointer--;
+        eventHandlersMP3();
+      } else {
+        alert(false);
+      }
+      break;
+    default:
+      alert('adding buttons')
+      break;
+  }
 }
 
 
@@ -162,6 +179,9 @@ async function eventHandlersMP3(event) {
 
   audioPlayer.removeEventListener('ended', songChangeHandle);
   audioPlayer.addEventListener('ended', songChangeHandle);
+
+  document.getElementById('backBtn').removeEventListener('click', songChangeHandle);
+  document.getElementById('backBtn').addEventListener('click', songChangeHandle);
 
   audioPlayer.addEventListener("loadedmetadata", handleLoadedMetaData);
   audioPlayer.addEventListener("timeupdate", handleTimeUpdates);
