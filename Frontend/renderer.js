@@ -26,6 +26,11 @@ let filePath = "";
 
 let imagePath = '';
 
+
+let playlist = [];
+
+let playlistPointer = 0;
+
 async function handleLoadedMetaData(event) {
   tempDurationSecs = document.getElementById("audioPlayer").duration;
   let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
@@ -127,7 +132,8 @@ function handleVolumeSlider(event) {
 };
 
 
-async function handleChanges(event) {
+async function eventHandlersMP3(event) {
+  console.log("event here: ", event)
   filePath = event.target.files[0].path;
   lyricPath = filePath.split(".")[0] + ".lrc";
   document.getElementById("audioPlayer").src = `file://${filePath}`;
@@ -142,6 +148,43 @@ async function handleChanges(event) {
   audioPlayer.addEventListener("timeupdate", handleTimeUpdates);
   document.getElementById("seekbar").addEventListener("click", handleSeekbarClick);
   document.getElementById("lrcFile").addEventListener("change", handleLrcChanges);
+
+}
+
+
+async function handleChanges(event) {
+
+  playlist = [];
+  playlistPointer = 0;
+
+  const fileType = event.target.files[0].name.split(".")[1];
+  switch (fileType) {
+    case ('mp3'):
+
+      break;
+
+    case ('json'):
+      console.log("json loaded");
+      let plTets = await window.testAPI.playlistRead('t');
+      const list = document.getElementById('playList');
+      const fileInput = document.getElementById('mp3File');
+      Object.keys(plTets).forEach(async function async(key, index) {
+
+        // filePath = plTets[key];
+        // lyrics = filePath.split(".")[0] + ".lrc";
+        // document.getElementById("audioPlayer").src = `file://${filePath}`;
+        playlist.push(plTets[key])
+
+      })
+      // alert(playlist[0])
+
+
+      break;
+
+    default:
+      alert('This program only accepts mp3/json');
+      break;
+  }
 }
 
 // entry point into frontend event listeners
@@ -151,35 +194,3 @@ document.getElementById('muteBtn').addEventListener('click', volumeControl);
 document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
 document.getElementById('volumeSliderFill').style.width = '100%';
 
-
-const plTestFunc = async () => {
-  let plTets = await window.testAPI.playlistRead('t');
-
-  const list = document.getElementById('playList');
-  Object.keys(plTets).forEach(function (key, index) {
-    let testLI = document.createElement('li');
-    let btn = document.createElement('button');
-    btn.className = 'testPlayBtn';
-    testLI.appendChild(document.createTextNode(plTets[key]))
-    list.appendChild(testLI);
-    list.appendChild(btn);
-    btn.addEventListener('click', function () {
-      testFunc(plTets[key])
-    })
-  })
-}
-
-plTestFunc();
-
-
-const testFunc = (t) => {
-  audioPlayer.src = t;
-}
-
-
-//! can all events be listened to like this?
-//! Though this will clean like 8 LoCs
-//! This is not standard?
-// audioPlayer.onended = function () {
-//   console.log('song ended')
-// }
