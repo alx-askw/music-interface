@@ -153,17 +153,29 @@ document.getElementById('volumeSliderFill').style.width = '100%';
 
 
 const plTestFunc = async () => {
-  const list = document.getElementById('playList');
   let plTets = await window.testAPI.playlistRead('t');
+
+  const list = document.getElementById('playList');
   Object.keys(plTets).forEach(function (key, index) {
     let testLI = document.createElement('li');
+    let btn = document.createElement('button');
+    btn.className = 'testPlayBtn';
     testLI.appendChild(document.createTextNode(plTets[key]))
     list.appendChild(testLI);
+    list.appendChild(btn);
+    btn.addEventListener('click', function () {
+      testFunc(plTets[key])
+    })
   })
 }
 
-
 plTestFunc();
+
+
+const testFunc = (t) => {
+  audioPlayer.src = t;
+}
+
 
 //! can all events be listened to like this?
 //! Though this will clean like 8 LoCs
