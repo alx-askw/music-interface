@@ -132,7 +132,22 @@ function handleVolumeSlider(event) {
 };
 
 
+function songChangeHandle() {
+  playlistPointer++
+  eventHandlersMP3();
+}
+
+
 async function eventHandlersMP3(event) {
+  event = {
+    target: {
+      files: [
+        {
+          path: playlist[playlistPointer]
+        }
+      ]
+    }
+  }
   console.log("event here: ", event)
   filePath = event.target.files[0].path;
   lyricPath = filePath.split(".")[0] + ".lrc";
@@ -144,23 +159,26 @@ async function eventHandlersMP3(event) {
   document.getElementById("seekbar").removeEventListener("click", handleSeekbarClick);
   document.getElementById("lrcFile").removeEventListener("change", handleLrcChanges);
 
+
+  audioPlayer.removeEventListener('ended', songChangeHandle);
+  audioPlayer.addEventListener('ended', songChangeHandle);
+
   audioPlayer.addEventListener("loadedmetadata", handleLoadedMetaData);
   audioPlayer.addEventListener("timeupdate", handleTimeUpdates);
   document.getElementById("seekbar").addEventListener("click", handleSeekbarClick);
   document.getElementById("lrcFile").addEventListener("change", handleLrcChanges);
+
 
 }
 
 
 async function handleChanges(event) {
 
-  playlist = [];
-  playlistPointer = 0;
-
   const fileType = event.target.files[0].name.split(".")[1];
   switch (fileType) {
     case ('mp3'):
-
+      const filePath = event.target.files[0].path;
+      playlist.push(filePath)
       break;
 
     case ('json'):
@@ -169,22 +187,24 @@ async function handleChanges(event) {
       const list = document.getElementById('playList');
       const fileInput = document.getElementById('mp3File');
       Object.keys(plTets).forEach(async function async(key, index) {
-
-        // filePath = plTets[key];
-        // lyrics = filePath.split(".")[0] + ".lrc";
-        // document.getElementById("audioPlayer").src = `file://${filePath}`;
         playlist.push(plTets[key])
-
       })
-      // alert(playlist[0])
-
-
       break;
 
     default:
       alert('This program only accepts mp3/json');
       break;
   }
+
+
+  // alert(isNaN(audioPlayer.duration))
+
+  if (isNaN(audioPlayer.duration)) {
+    eventHandlersMP3();
+  }
+
+  console.log(playlist)
+
 }
 
 // entry point into frontend event listeners
