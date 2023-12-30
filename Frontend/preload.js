@@ -25,8 +25,8 @@ const TESTAPI = {
   },
   addLrcToDB: (associateObj) => ipcRenderer.invoke("lrc-db", associateObj),
   lrcDBCheck: (song) => ipcRenderer.invoke("lrc-check", song),
-
-  playlistRead: (t) => ipcRenderer.invoke('pl-read', t)
+  playlistRead: (t) => ipcRenderer.invoke('pl-read', t),
+  taskBarControls: (callback) => ipcRenderer.on('task-bar-control', (_event, control) => callback(control)),
 };
 
 contextBridge.exposeInMainWorld("testAPI", TESTAPI);

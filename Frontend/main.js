@@ -26,13 +26,18 @@ function createWindow() {
     mainWindow.setThumbarButtons([
         {
             icon: null,
-            click() { console.log('thumbar button 1 pressed') },
-            tooltip: 'Test Btn 1'
+            click() { mainWindow.webContents.send('task-bar-control', 'backBtn') },
+            tooltip: 'Last Song'
         },
         {
             icon: null,
-            click() { console.log('thumbar button 2 pressed') },
-            tooltip: 'Test Btn 2'
+            click() { mainWindow.webContents.send('task-bar-control', 'playPause') },
+            tooltip: 'Play or Pause'
+        },
+        {
+            icon: null,
+            click() { mainWindow.webContents.send('task-bar-control', 'forwardBtn') },
+            tooltip: 'Next Song'
         }
 
     ])

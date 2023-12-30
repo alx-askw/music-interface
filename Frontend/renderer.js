@@ -135,9 +135,11 @@ function handleVolumeSlider(event) {
 function songChangeHandle(event) {
   console.log("change event", event.type, event.target.id)
   const invokeAction = event.type;
+  console.log("invoke", invokeAction)
   switch (invokeAction) {
     case ('ended'):
-      playlistPointer++
+      //! need to be careful, issues with the pointer going beyond the list size
+      playlistPointer === (playlist.length - 1) ? playlistPointer = 0 : playlistPointer++;
       eventHandlersMP3();
       break;
     case ('click'):
@@ -232,11 +234,13 @@ async function handleChanges(event) {
 
   const playlistULTag = document.getElementById('playlist');
   playlistULTag.innerHTML = '';
-  playlist.forEach(function (e) {
-    const testElement = document.createTextNode(e);
+  playlist.forEach(function (song) {
+    const testElement = document.createTextNode(song);
     const entry = document.createElement('li');
     entry.appendChild(testElement)
     playlistULTag.appendChild(entry);
+    // console.log(playlistPointer)
+    // song === playlist[playlistPointer] ? entry.className = 'currentSong' : console.log('not current song');
   })
 
 
@@ -249,3 +253,12 @@ document.getElementById('muteBtn').addEventListener('click', volumeControl);
 document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
 document.getElementById('volumeSliderFill').style.width = '100%';
 
+
+window.testAPI.taskBarControls((control) => {
+  //!Putting this in the mp3 handler caused a weird loop of sorts
+  if (!isNaN(audioPlayer.duration) && control !== 'playPause') {
+    songChangeHandle({ target: { id: control }, type: 'click' });
+  } else if (!isNaN(audioPlayer.duration) && control === 'playPause') {
+    audioPlayer.paused === false ? audioPlayer.pause() : audioPlayer.play()
+  }
+})

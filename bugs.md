@@ -11,6 +11,9 @@ bugs:
   https://www.electronjs.org/docs/latest/tutorial/application-debugging
 - NOTHING TO WORRY ABOUT HERE - Potential bug with adding more than one LRC file to an MP3. Check it out as it might only be potential
 - Dynamically find port, just incase 3000 is being used. maybe add 1 each time
+- FIXED weird bug when the ended event is fired after the last song causing the list to stop
+  - ended event would only add to playlist pointer, so it went out of bounds
+  - that's why pressing back button a few times would work
 
 
 things to consider:
