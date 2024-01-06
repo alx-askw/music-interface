@@ -165,7 +165,7 @@ async function eventHandlersMP3(event) {
     target: {
       files: [
         {
-          path: playlist[playlistPointer]
+          path: playlist[playlistPointer].song
         }
       ]
     }
@@ -206,16 +206,18 @@ async function handleChanges(event) {
   switch (fileType) {
     case ('mp3'):
       const filePath = event.target.files[0].path;
-      playlist.push(filePath)
+      alert(filePath)
+      playlist.push({ song: filePath, index: playlist.length })
       break;
 
     case ('json'):
       console.log("json loaded");
-      let plTets = await window.testAPI.playlistRead('t');
+      let loadedPlaylist = await window.testAPI.playlistRead();
       const list = document.getElementById('playList');
       const fileInput = document.getElementById('mp3File');
-      Object.keys(plTets).forEach(async function async(key, index) {
-        playlist.push(plTets[key])
+      //todo: if multiple files are selected, handle the different types
+      Object.keys(loadedPlaylist).forEach(async function async(key, index) {
+        playlist.push({ song: loadedPlaylist[key], index: index })
       })
       break;
 
@@ -229,20 +231,33 @@ async function handleChanges(event) {
     eventHandlersMP3();
   }
 
-  console.log(playlist)
 
+  function uxPlaylistHandler() {
+    const playlistULTag = document.getElementById('playlist');
+    playlistULTag.innerHTML = '';
+    playlist.forEach(function (song) {
+      const songFromList = document.createTextNode(song.song);
+      const entry = document.createElement('li');
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'removeButton';
+      removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); uxPlaylistHandler(); playlistPointer - 1 })
 
-  const playlistULTag = document.getElementById('playlist');
-  playlistULTag.innerHTML = '';
-  playlist.forEach(function (song) {
-    const testElement = document.createTextNode(song);
-    const entry = document.createElement('li');
-    entry.appendChild(testElement)
-    playlistULTag.appendChild(entry);
-    // console.log(playlistPointer)
-    // song === playlist[playlistPointer] ? entry.className = 'currentSong' : console.log('not current song');
-  })
+      const playBtn = document.createElement('button');
+      playBtn.textContent = 'playButton';
+      playBtn.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }) });
 
+      console.log(playlist)
+
+      entry.appendChild(songFromList)
+      entry.appendChild(removeBtn);
+      entry.appendChild(playBtn);
+      playlistULTag.appendChild(entry);
+      // console.log(playlistPointer)
+      // song === playlist[playlistPointer] ? entry.className = 'currentSong' : console.log('not current song');
+    })
+  }
+
+  uxPlaylistHandler();
 
 }
 
@@ -253,6 +268,8 @@ document.getElementById('muteBtn').addEventListener('click', volumeControl);
 document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
 document.getElementById('volumeSliderFill').style.width = '100%';
 
+//!###########################################
+document.getElementById('TestButton').addEventListener('click', () => { console.log(playlistPointer) });
 
 window.testAPI.taskBarControls((control) => {
   //!Putting this in the mp3 handler caused a weird loop of sorts

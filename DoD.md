@@ -4,9 +4,14 @@
 
 - Fix bugs (see bugs.md)
 - DONE Autoplay?
-- Ability to repeat songs on a loop automatically
+- DONE Ability to repeat songs on a loop automatically
 - Basic playlist system (JSON DB)
 - Make the application look nicer
+  - https://stackoverflow.com/questions/572768/styling-an-input-type-file-button
+  - https://www.dofactory.com/html/editor/input-style
+  - https://www.quirksmode.org/dom/inputfile.html
+  - https://stackoverflow.com/questions/38067298/saving-files-locally-with-electron
+  - https://www.electronjs.org/docs/latest/api/dialog
 - Come up with a name
 - Add a custom icon
 - Add multiple backend routes. Some Examples:
@@ -16,7 +21,7 @@
   - Volume
 - Add custom controls (mainly need to work on seek bar) (https://www.w3schools.com/tags/ref_av_dom.asp)
   - Add icon to mute button to show whether music is muted or not
-  - Tray buttons ('Thumbar Buttons')
+  - DONE Tray buttons ('Thumbar Buttons')
 - Tests
 - Test on Linux
 - Write documentation
@@ -46,6 +51,7 @@
   - volume
   - what was being listened to last
   - how far into the last item 
+- video
 
 
 
