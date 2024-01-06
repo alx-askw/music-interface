@@ -6,7 +6,7 @@
 //todo: look at attributes of mdn docs (like seeking event - very cool)
 // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio
 
-//! I dislike how these global variables are set out
+//! Maybe clean these globals
 const audioPlayer = document.getElementById("audioPlayer");
 
 let lyrics;
@@ -217,7 +217,7 @@ async function handleChanges(event) {
       const fileInput = document.getElementById('mp3File');
       //todo: if multiple files are selected, handle the different types
       Object.keys(loadedPlaylist).forEach(async function async(key, index) {
-        playlist.push({ song: loadedPlaylist[key], index: index })
+        playlist.push({ song: loadedPlaylist[key], index: playlist.length })
       })
       break;
 
@@ -240,7 +240,7 @@ async function handleChanges(event) {
       const entry = document.createElement('li');
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'removeButton';
-      removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); uxPlaylistHandler(); playlistPointer - 1 })
+      removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
 
       const playBtn = document.createElement('button');
       playBtn.textContent = 'playButton';
@@ -252,8 +252,6 @@ async function handleChanges(event) {
       entry.appendChild(removeBtn);
       entry.appendChild(playBtn);
       playlistULTag.appendChild(entry);
-      // console.log(playlistPointer)
-      // song === playlist[playlistPointer] ? entry.className = 'currentSong' : console.log('not current song');
     })
   }
 
@@ -268,8 +266,16 @@ document.getElementById('muteBtn').addEventListener('click', volumeControl);
 document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
 document.getElementById('volumeSliderFill').style.width = '100%';
 
+//! Improve this playlist index fix
+// On removing a song, this function is called to update the indices in the playlist
+function updatePlaylistIndices() {
+  for (let i = 0; i < playlist.length; i++) {
+    playlist[i].index = i;
+  }
+}
+
 //!###########################################
-document.getElementById('TestButton').addEventListener('click', () => { console.log(playlistPointer) });
+document.getElementById('TestButton').addEventListener('click', () => { console.log(playlistPointer, playlist) });
 
 window.testAPI.taskBarControls((control) => {
   //!Putting this in the mp3 handler caused a weird loop of sorts
