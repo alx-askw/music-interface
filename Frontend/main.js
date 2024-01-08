@@ -2,7 +2,7 @@
 
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
-// const server = require('./server')
+const { playlistSave } = require('./utils/playlistFuncs.js');
 const startExpressServer = require('./server');
 const fs = require('fs');
 
@@ -52,11 +52,6 @@ function createWindow() {
 app.whenReady().then(() => {
     createWindow();
     startExpressServer(mainWindow);
-    //!Delete This
-    // async function test() {
-    //     console.log(await dialog.showOpenDialog({ properties: ['openFile', 'multiSelections'] }))
-    // }
-    // test()
 });
 
 app.on('window-all-closed', function () {
@@ -70,5 +65,15 @@ app.on('activate', function () {
 
 ipcMain.on('testAPI', (event, args) => {
     console.log(args)
+})
+
+ipcMain.handle('pl-save', async (event, playlist) => {
+    try {
+        let savePath = await dialog.showSaveDialog();
+        return await playlistSave(playlist, savePath);
+    } catch (e) {
+        return ({ status: 'failure', message: `Playlist NOT Saved Successfully! Error ${e}` })
+
+    }
 })
 

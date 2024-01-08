@@ -199,6 +199,15 @@ async function eventHandlersMP3(event) {
 
 }
 
+async function savePlaylist() {
+  let playlistPaths = [];
+  playlist.forEach((value) => {
+    playlistPaths.push(value.song);
+  })
+  const plSave = await window.testAPI.playlistSave(playlistPaths);
+  alert(plSave.message);
+}
+
 
 async function handleChanges(event) {
 
@@ -206,7 +215,6 @@ async function handleChanges(event) {
   switch (fileType) {
     case ('mp3'):
       const filePath = event.target.files[0].path;
-      alert(filePath)
       playlist.push({ song: filePath, index: playlist.length })
       break;
 
@@ -254,8 +262,9 @@ async function handleChanges(event) {
       playlistULTag.appendChild(entry);
     })
   }
-
   uxPlaylistHandler();
+
+  document.getElementById('savePlaylist').addEventListener('click', savePlaylist);
 
 }
 
@@ -273,9 +282,6 @@ function updatePlaylistIndices() {
     playlist[i].index = i;
   }
 }
-
-//!###########################################
-document.getElementById('TestButton').addEventListener('click', () => { console.log(playlistPointer, playlist) });
 
 window.testAPI.taskBarControls((control) => {
   //!Putting this in the mp3 handler caused a weird loop of sorts

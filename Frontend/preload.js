@@ -26,6 +26,7 @@ const TESTAPI = {
   addLrcToDB: (associateObj) => ipcRenderer.invoke("lrc-db", associateObj),
   lrcDBCheck: (song) => ipcRenderer.invoke("lrc-check", song),
   playlistRead: () => ipcRenderer.invoke('pl-read'),
+  playlistSave: (playlist) => ipcRenderer.invoke('pl-save', playlist),
   taskBarControls: (callback) => ipcRenderer.on('task-bar-control', (_event, control) => callback(control)),
 };
 

@@ -14,6 +14,7 @@ bugs:
 - FIXED weird bug when the ended event is fired after the last song causing the list to stop
   - ended event would only add to playlist pointer, so it went out of bounds
   - that's why pressing back button a few times would work
+- Some songs can only be removed by playing them first from playlist
 
 
 things to consider:

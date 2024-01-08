@@ -19,7 +19,8 @@
   - Everything, same as above, but image buffer, lyrics
   - Is music paused/Played
   - Volume
-- Add custom controls (mainly need to work on seek bar) (https://www.w3schools.com/tags/ref_av_dom.asp)
+- Split the ipc bridges and improve name of API
+- DONE Add custom controls (mainly need to work on seek bar) (https://www.w3schools.com/tags/ref_av_dom.asp)
   - Add icon to mute button to show whether music is muted or not
   - DONE Tray buttons ('Thumbar Buttons')
 - Tests
@@ -27,6 +28,8 @@
 - Write documentation
 - Remove storeCurrentImage functions as they are now obsolete
 - Clean code for DoD
+  - Make the code more modular
+  - Single responsibility functions
 
 ### Beyond 1.0
 
