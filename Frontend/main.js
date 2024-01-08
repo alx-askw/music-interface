@@ -2,7 +2,7 @@
 
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
-const { playlistSave } = require('./utils/playlistFuncs.js');
+const { playlistSave, playlistRead } = require('./utils/playlistFuncs.js');
 const startExpressServer = require('./server');
 const fs = require('fs');
 
@@ -65,6 +65,29 @@ app.on('activate', function () {
 
 ipcMain.on('testAPI', (event, args) => {
     console.log(args)
+})
+
+const options = {
+    title: 'Open File',
+    defaultPath: '/',  // Default directory
+    buttonLabel: 'Open',  // Custom label for the open button
+    filters: [
+        { name: 'MP3 Files', extensions: ['mp3'] },
+        { name: 'JSON Files', extensions: ['json'] }
+    ],
+    properties: ['openFile', 'multiSelections']  // Allow opening multiple files
+};
+
+ipcMain.handle('open-file', async () => {
+    // let readPath = await dialog.showOpenDialog({ filters: [{ name: 'MP3 Files', extensions: ['mp3'] }, { name: 'JSON Files', extensions: ['json'] }] });
+    let readPath = await dialog.showOpenDialog();
+    return readPath;
+})
+
+ipcMain.handle('pl-read', async (event, path) => {
+    console.log(path)
+    let test = await playlistRead(path);
+    return test;
 })
 
 ipcMain.handle('pl-save', async (event, playlist) => {

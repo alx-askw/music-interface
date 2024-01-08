@@ -1,16 +1,15 @@
-const { config } = require('dotenv');
 const { JsonDB, Config } = require('node-json-db');
-const path = require('path');
-
-const examplePath = './TESTPLAYLIST.json';
-var db = new JsonDB(new Config(examplePath, true, false, '/'));
 
 
-async function playlistRead() {
-    //todo: pass through path from input box
-    let data = await db.getData('/');
-    console.log(data);
-    return data;
+async function playlistRead(path) {
+    try {
+        let readDB = new JsonDB(new Config(path, true, false, '/'));
+        let data = await readDB.getData('/');
+        console.log(data);
+        return data;
+    } catch (e) {
+        return e;
+    }
 }
 
 

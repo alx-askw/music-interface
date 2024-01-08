@@ -51,9 +51,8 @@ async function handleLoadedMetaData(event) {
 
 
   imagePath = await window.testAPI.updateImage();
-  // console.log("image path in renderer: ", imagePath);
   if (imagePath) {
-    // document.getElementById('albumArt').src = imagePath;
+
   }
 }
 
@@ -210,19 +209,19 @@ async function savePlaylist() {
 
 
 async function handleChanges(event) {
-
-  const fileType = event.target.files[0].name.split(".")[1];
+  console.log(event)
+  // const fileType = event.target.files[0].name.split(".")[1];
+  let getPath = await window.testAPI.openFile();
+  let fileType = getPath.filePaths[0].split('.')[1];
   switch (fileType) {
     case ('mp3'):
-      const filePath = event.target.files[0].path;
+      const filePath = getPath.filePaths[0];
       playlist.push({ song: filePath, index: playlist.length })
       break;
 
     case ('json'):
       console.log("json loaded");
-      let loadedPlaylist = await window.testAPI.playlistRead();
-      const list = document.getElementById('playList');
-      const fileInput = document.getElementById('mp3File');
+      let loadedPlaylist = await window.testAPI.playlistRead(getPath.filePaths[0]);
       //todo: if multiple files are selected, handle the different types
       Object.keys(loadedPlaylist).forEach(async function async(key, index) {
         playlist.push({ song: loadedPlaylist[key], index: playlist.length })
@@ -269,7 +268,7 @@ async function handleChanges(event) {
 }
 
 // entry point into frontend event listeners
-document.getElementById("mp3File").addEventListener("change", handleChanges);
+document.getElementById("mp3File").addEventListener("click", handleChanges);
 document.getElementById('muteBtn').addEventListener('click', volumeControl);
 
 document.getElementById('volumeSlider').addEventListener('click', handleVolumeSlider);
