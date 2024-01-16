@@ -10,49 +10,48 @@
 
 <body>
     <div class="container">
-        <h1>Need better name</h1>
-        <!-- <h4 id="test">No Name</h4> -->
-        <div>
-            <img class="albumArt" id="albumArt" src="placeholder.png" alt="">
-        </div>
-        <div>
-            <!-- <input class="input" type="file" id="mp3File" accept=".mp3, .json"> -->
-            <button class="input" id="mp3File">Open</button>
-        </div>
+        <h1 id="appTitle">Need better name</h1>
         <div>
             <!-- <h2 id="songAndArtist">------------</h2> -->
-            <!-- <audio controls id="audioPlayer"></audio> -->
+
+        </div>
+        <div class="controls">
+            <img class="albumArt" id="albumArt" src="placeholder.png" alt="">
+
+            <div id="seekbar">
+                <div id="seekbarFill"></div>
+            </div>
+            <button class="input" id="mp3File">Open</button>
             <audio id="audioPlayer" autoplay src=""></audio>
             <button onclick="document.getElementById('audioPlayer').play()">Play</button>
             <button onclick="document.getElementById('audioPlayer').pause()">Pause</button>
             <button id="muteBtn">Mute</button>
             <button id="backBtn">B</button>
             <button id="forwardBtn">F</button>
-            <button id="savePlaylist">SavePL</button>
-
-        </div>
-        <div class="controls">
-            <div id="seekbar">
-                <div id="seekbarFill"></div>
-            </div>
             <div id="volumeSlider">
                 <div id="volumeSliderFill"></div>
             </div>
+            <div>
+                <h3 id="lyrics">----</h3>
+                <input class="lrcIn" type="file" id="lrcFile" accept=".lrc">
+            </div>
 
         </div>
-        <div>
-            <ul id="playlist">
+        <div id="playlistFuncs">
+            <button id="savePlaylist">SavePL</button>
+            <button id="clearPlaylist">clearPL</button>
+            <div id="playlistContainer">
+                <ul id="playlist">
 
-            </ul>
+                </ul>
+            </div>
         </div>
         <div id="response">
         </div>
 
         <div>
-            <h3 id="lyrics">----</h3>
         </div>
         <div>
-            <input class="lrcIn" type="file" id="lrcFile" accept=".lrc">
         </div>
     </div>
     <script>

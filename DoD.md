@@ -5,13 +5,14 @@
 - Fix bugs (see bugs.md)
 - DONE Autoplay?
 - DONE Ability to repeat songs on a loop automatically
-- Basic playlist system (JSON DB)
+- DONE Basic playlist system (JSON DB)
 - Make the application look nicer
   - https://stackoverflow.com/questions/572768/styling-an-input-type-file-button
   - https://www.dofactory.com/html/editor/input-style
   - https://www.quirksmode.org/dom/inputfile.html
   - https://stackoverflow.com/questions/38067298/saving-files-locally-with-electron
   - https://www.electronjs.org/docs/latest/api/dialog
+  - https://m2.material.io/design/color/dark-theme.html#ui-application
 - Come up with a name
 - Add a custom icon
 - Add multiple backend routes. Some Examples:
@@ -23,7 +24,7 @@
 - DONE Add custom controls (mainly need to work on seek bar) (https://www.w3schools.com/tags/ref_av_dom.asp)
   - Add icon to mute button to show whether music is muted or not
   - DONE Tray buttons ('Thumbar Buttons')
-- Tests
+- Tests = https://www.electronjs.org/docs/latest/tutorial/automated-testing
 - Test on Linux
 - Write documentation
 - Remove storeCurrentImage functions as they are now obsolete

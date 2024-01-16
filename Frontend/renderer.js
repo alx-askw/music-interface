@@ -119,7 +119,7 @@ function volumeControl() {
   let volume = audioPlayer.muted;
   const muteButton = document.getElementById('muteBtn');
   volume !== true ? audioPlayer.muted = true : audioPlayer.muted = false;
-  muteButton.style.backgroundColor = audioPlayer.muted ? 'grey' : 'green';
+  muteButton.style.backgroundColor = audioPlayer.muted ? 'grey' : '#03DAC5';
 };
 
 function handleVolumeSlider(event) {
@@ -159,6 +159,8 @@ function songChangeHandle(event) {
 }
 
 
+
+
 async function eventHandlersMP3(event) {
   event = {
     target: {
@@ -173,6 +175,8 @@ async function eventHandlersMP3(event) {
   filePath = event.target.files[0].path;
   lyricPath = filePath.split(".")[0] + ".lrc";
   document.getElementById("audioPlayer").src = `file://${filePath}`;
+
+
 
   //*Adding and removing event listeners (remember that ELs aren't removed automatically)
   audioPlayer.removeEventListener("loadedmetadata", handleLoadedMetaData);
@@ -198,6 +202,16 @@ async function eventHandlersMP3(event) {
 
 }
 
+//? Should this stop and the clear the current music or not?
+//? Down to preference - maybe something for the config 
+
+function clearPlaylist() {
+  playlist = [];
+  playlistPointer = 0;
+  uxPlaylistHandler();
+}
+
+
 async function savePlaylist() {
   let playlistPaths = [];
   playlist.forEach((value) => {
@@ -210,7 +224,6 @@ async function savePlaylist() {
 
 async function handleChanges(event) {
   console.log(event)
-  // const fileType = event.target.files[0].name.split(".")[1];
   let getPath = await window.testAPI.openFile();
   let fileType = getPath.filePaths[0].split('.')[1];
   switch (fileType) {
@@ -220,7 +233,6 @@ async function handleChanges(event) {
       break;
 
     case ('json'):
-      console.log("json loaded");
       let loadedPlaylist = await window.testAPI.playlistRead(getPath.filePaths[0]);
       //todo: if multiple files are selected, handle the different types
       Object.keys(loadedPlaylist).forEach(async function async(key, index) {
@@ -239,33 +251,37 @@ async function handleChanges(event) {
   }
 
 
-  function uxPlaylistHandler() {
-    const playlistULTag = document.getElementById('playlist');
-    playlistULTag.innerHTML = '';
-    playlist.forEach(function (song) {
-      const songFromList = document.createTextNode(song.song);
-      const entry = document.createElement('li');
-      const removeBtn = document.createElement('button');
-      removeBtn.textContent = 'removeButton';
-      removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
 
-      const playBtn = document.createElement('button');
-      playBtn.textContent = 'playButton';
-      playBtn.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }) });
-
-      console.log(playlist)
-
-      entry.appendChild(songFromList)
-      entry.appendChild(removeBtn);
-      entry.appendChild(playBtn);
-      playlistULTag.appendChild(entry);
-    })
-  }
   uxPlaylistHandler();
 
   document.getElementById('savePlaylist').addEventListener('click', savePlaylist);
+  document.getElementById('clearPlaylist').addEventListener('click', clearPlaylist);
 
 }
+
+function uxPlaylistHandler() {
+  const playlistULTag = document.getElementById('playlist');
+  playlistULTag.innerHTML = '';
+  playlist.forEach(function (song) {
+    const songFromList = document.createTextNode(song.song);
+    const entry = document.createElement('li');
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'removeButton';
+    removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
+
+    const playBtn = document.createElement('button');
+    playBtn.textContent = 'playButton';
+    playBtn.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }) });
+
+    console.log(playlist)
+
+    entry.appendChild(songFromList)
+    entry.appendChild(removeBtn);
+    entry.appendChild(playBtn);
+    playlistULTag.appendChild(entry);
+  })
+}
+
 
 // entry point into frontend event listeners
 document.getElementById("mp3File").addEventListener("click", handleChanges);

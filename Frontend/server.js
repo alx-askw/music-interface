@@ -40,7 +40,8 @@ async function metaFunc(filePath, mainWindow) {
                 //https://stackoverflow.com/questions/6182315/how-can-i-do-base64-encoding-in-node-js
                 let b64 = Buffer.from(output.image.imageBuffer).toString('base64')
                 let link = `data:image/png;base64,${b64}`;
-                updateImage(link, mainWindow)
+                // currentSong.imageBuffer = link;
+                updateImage(link, mainWindow);
             } catch (e) {
                 console.log("Error in metaFunc: ", e)
             }

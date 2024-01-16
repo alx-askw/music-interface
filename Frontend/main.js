@@ -67,16 +67,6 @@ ipcMain.on('testAPI', (event, args) => {
     console.log(args)
 })
 
-const options = {
-    title: 'Open File',
-    defaultPath: '/',  // Default directory
-    buttonLabel: 'Open',  // Custom label for the open button
-    filters: [
-        { name: 'MP3 Files', extensions: ['mp3'] },
-        { name: 'JSON Files', extensions: ['json'] }
-    ],
-    properties: ['openFile', 'multiSelections']  // Allow opening multiple files
-};
 
 ipcMain.handle('open-file', async () => {
     // let readPath = await dialog.showOpenDialog({ filters: [{ name: 'MP3 Files', extensions: ['mp3'] }, { name: 'JSON Files', extensions: ['json'] }] });
@@ -85,7 +75,6 @@ ipcMain.handle('open-file', async () => {
 })
 
 ipcMain.handle('pl-read', async (event, path) => {
-    console.log(path)
     let test = await playlistRead(path);
     return test;
 })
