@@ -266,11 +266,13 @@ function uxPlaylistHandler() {
     const songFromList = document.createTextNode(song.song);
     const entry = document.createElement('li');
     const removeBtn = document.createElement('button');
-    removeBtn.textContent = 'removeButton';
+    removeBtn.textContent = 'Remove';
+    removeBtn.className = 'plRemoveBtn'
     removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
 
     const playBtn = document.createElement('button');
-    playBtn.textContent = 'playButton';
+    playBtn.className = 'plPlayBtn'
+    playBtn.textContent = 'Play';
     playBtn.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }) });
 
     console.log(playlist)

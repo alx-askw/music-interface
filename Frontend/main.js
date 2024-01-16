@@ -1,6 +1,6 @@
 //main.js
 
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, nativeTheme } = require('electron');
 const path = require('path');
 const { playlistSave, playlistRead } = require('./utils/playlistFuncs.js');
 const startExpressServer = require('./server');
@@ -10,6 +10,8 @@ require('dotenv').config()
 const PORT = 3000;
 
 
+//https://www.electronjs.org/docs/latest/tutorial/dark-mode
+nativeTheme.themeSource = 'dark';
 
 let mainWindow;
 
@@ -18,10 +20,13 @@ function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
+            // devTools: false,
             nodeIntegration: true,
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
         }
     });
+
+    mainWindow.setMenuBarVisibility(false);
 
     mainWindow.setThumbarButtons([
         {
