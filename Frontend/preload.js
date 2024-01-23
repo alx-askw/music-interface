@@ -29,6 +29,7 @@ const TESTAPI = {
   playlistRead: (path) => ipcRenderer.invoke('pl-read', path),
   playlistSave: (playlist) => ipcRenderer.invoke('pl-save', playlist),
   taskBarControls: (callback) => ipcRenderer.on('task-bar-control', (_event, control) => callback(control)),
+  displayInfo: (path) => ipcRenderer.invoke('dis-info', path)
 };
 
 contextBridge.exposeInMainWorld("testAPI", TESTAPI);

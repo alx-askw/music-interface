@@ -14,7 +14,7 @@
             <h1 id="appTitle">// Dionysos //</h1>
         </div>
         <div>
-            <!-- <h2 id="songAndArtist">------------</h2> -->
+            <h2 id="songAndArtist">------------</h2>
 
         </div>
         <div class="controls">
@@ -25,16 +25,17 @@
                 <div id="seekbarFill"></div>
             </div>
             <div id="btnGroup">
-                <button class="input" id="mp3File">Open</button>
+                <button class="input" id="mp3File"><img src="public/folder-open-solid.svg" alt=""></button>
                 <audio id="audioPlayer" autoplay src=""></audio>
-                <button id="playBtn" onclick="document.getElementById('audioPlayer').play()"><img src=""
-                        alt="">Play</button>
-                <button onclick="document.getElementById('audioPlayer').pause()">Pause</button>
+                <button id="playBtn" onclick="document.getElementById('audioPlayer').play()"><img
+                        src="public/play-solid.svg" alt=""></button>
+                <button onclick="document.getElementById('audioPlayer').pause()"><img src="public/pause-solid.svg"
+                        alt=""></button>
                 <button id="muteBtn">
-                    <div>TEST</div>
+                    <img id='muteBtnIcon' src="public/volume-high-solid.svg" alt="">
                 </button>
-                <button id="backBtn">B</button>
-                <button id="forwardBtn">F</button>
+                <button id="backBtn"><img src="public/backward-solid.svg" alt=""></button>
+                <button id="forwardBtn"><img src="public/forward-solid.svg" alt=""></button>
             </div>
             <div id="volumeSlider">
                 <div id="volumeSliderFill"></div>
@@ -48,9 +49,10 @@
         </div>
         <div id="playlistFuncs">
             <div id="playlistControls">
-                <button id="savePlaylist">SavePL</button>
-                <button id="clearPlaylist"><img src="trash-solid.svg" height="20px" width="20px" style="color: blue"
-                        alt=""></button>
+                <button id="savePlaylist"><img src="public/floppy-disk-solid.svg" height="20px" width="20px"
+                        alt="save playlist"></button>
+                <button id="clearPlaylist"><img src="public/trash-solid.svg" height="20px" width="20px"
+                        alt="clear playlist"></button>
             </div>
             <div id="playlistContainer">
                 <ul id="playlist">

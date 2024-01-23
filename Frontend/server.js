@@ -50,6 +50,24 @@ async function metaFunc(filePath, mainWindow) {
 }
 
 
+async function readData(path) {
+
+}
+
+async function getInfoForFrontendDisplay(path) {
+    return new Promise((resolve, reject) => {
+        let returnObj = { artist: '', songName: '' };
+        NodeID3.read(path, function (err, output) {
+            returnObj.artist = output.artist;
+            returnObj.songName = output.title;
+            resolve(returnObj);
+        })
+    })
+
+}
+
+
+
 const startExpressServer = (mainWindow) => {
     const server = express();
     server.use(cors())
@@ -81,6 +99,10 @@ const startExpressServer = (mainWindow) => {
     ipcMain.handle('lrc-check', async (event, song) => {
         let check = await checkSongLrc(song);
         return check;
+    })
+
+    ipcMain.handle('dis-info', async (event, path) => {
+        return await getInfoForFrontendDisplay(path);
     })
 
     //todo: put routes in different file

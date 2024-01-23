@@ -117,9 +117,10 @@ function volumeControl() {
   //https://www.w3schools.com/tags/av_prop_volume.asp
 
   let volume = audioPlayer.muted;
-  const muteButton = document.getElementById('muteBtn');
+  const muteButton = document.getElementById('muteBtnIcon');
   volume !== true ? audioPlayer.muted = true : audioPlayer.muted = false;
-  muteButton.style.backgroundColor = audioPlayer.muted ? 'grey' : '#03DAC5';
+  // muteButton.style.backgroundColor = audioPlayer.muted ? 'grey' : '#03DAC5';
+  muteBtnIcon.src = audioPlayer.muted ? 'public/volume-xmark-solid.svg' : 'public/volume-high-solid.svg';
 };
 
 function handleVolumeSlider(event) {
@@ -175,6 +176,14 @@ async function eventHandlersMP3(event) {
   filePath = event.target.files[0].path;
   lyricPath = filePath.split(".")[0] + ".lrc";
   document.getElementById("audioPlayer").src = `file://${filePath}`;
+
+  let songName = await window.testAPI.displayInfo(filePath)
+  document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
+  //todo: set background as blurred album art
+  // let bkTest = document.getElementById('albumArt').src;
+  // document.body.style.background = `url('${bkTest}')`;
+  // document.body.style.background.size = 'cover';
+
 
 
 
@@ -262,11 +271,14 @@ async function handleChanges(event) {
 function uxPlaylistHandler() {
   const playlistULTag = document.getElementById('playlist');
   playlistULTag.innerHTML = '';
-  playlist.forEach(function (song) {
-    const songFromList = document.createTextNode(song.song);
+  playlist.forEach(async function (song) {
+    const currentSongInfo = await window.testAPI.displayInfo(song.song);
+    const songFromList = document.createTextNode(`${currentSongInfo.artist} - ${currentSongInfo.songName}`);
     const entry = document.createElement('li');
     const removeBtn = document.createElement('button');
-    removeBtn.textContent = 'Remove';
+    const removeBtnImg = document.createElement('img');
+    removeBtnImg.src = 'public/trash-solid.svg'
+    removeBtn.appendChild(removeBtnImg)
     removeBtn.className = 'plRemoveBtn'
     removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
 
@@ -274,6 +286,7 @@ function uxPlaylistHandler() {
     playBtn.className = 'plPlayBtn'
     playBtn.textContent = 'Play';
     playBtn.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }) });
+
 
     console.log(playlist)
 

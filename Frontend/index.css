@@ -7,8 +7,10 @@ body {
     /* background-color: #27282c; */
     /* background-color: #11001c; */
     background-color: #ffe66b;
-
+    backdrop-filter: blur(10px);
 }
+
+
 
 #playlist {
     color: #BB86FC;
@@ -106,15 +108,6 @@ body {
 }
 
 
-#muteBtn {
-    background-color: #03DAC5;
-    color: white;
-}
-
-#playBtn {
-    opacity: 50%;
-}
-
 .currentSong {
     color: red;
 }
@@ -125,9 +118,9 @@ body {
     float: right;
     width: 45%;
     height: 75%;
-    background-color: #0f3834;
+    background-color: #222222;
     /* box-shadow: 24px, 24px, #061615; */
-    border: #03DAC5 solid 3px;
+    /* border: #03DAC5 solid 3px; */
     border-radius: 7px 0px 7px 0px;
 }
 
@@ -141,6 +134,16 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+#playlistControls button {
+    margin-top: 5px;
+    background-color: #ffe66b;
+}
+
+#playlistControls button img {
+    width: 30px;
+    height: 20px;
 }
 
 #lrcContainer {
@@ -168,6 +171,17 @@ body {
     justify-content: center;
 }
 
+#btnGroup button {
+    background-color: #ffe66b;
+}
+
+#btnGroup button img {
+    width: 30px;
+    height: 20px;
+}
+
+
+
 #albumArtDiv {
     display: flex;
     flex-direction: column;
@@ -188,6 +202,7 @@ body {
     border-radius: 2px;
 
 }
+
 
 
 /* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
