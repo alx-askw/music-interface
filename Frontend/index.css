@@ -1,13 +1,37 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
-    background-color: #121212;
+    /* background-color: #121212; */
+    /* background-color: #27282c; */
+    /* background-color: #11001c; */
+    background-color: #ffe66b;
+
 }
 
 #playlist {
     color: #BB86FC;
 }
 
+.controls {
+    width: 45%;
+    height: 75%;
+    float: left;
+    background-color: #222222;
+    /* box-shadow: 24px, 24px, #061615; */
+    /* border: #03DAC5 solid 3px; */
+    border-radius: 7px 0px 7px 0px;
+}
+
 #appTitle {
-    color: #BB86FC;
+    /* color: #C98CA7; */
+    color: #a5607f;
+
+}
+
+#appTitle:hover {
+    text-shadow: 0 0 4px#d2acff;
 }
 
 #lyrics {
@@ -31,9 +55,15 @@ body {
 }
 
 .albumArt {
-    max-width: 250px;
-    max-height: 200px;
-    margin: 15px
+    /* max-width: 250px;
+    max-height: 200px; */
+    width: 204px;
+    height: 204px;
+    margin: 15px;
+    border: 2px solid #ffe66b;
+    border-radius: 50%;
+
+    object-fit: cover;
 }
 
 #audioPlayer {}
@@ -81,24 +111,15 @@ body {
     color: white;
 }
 
+#playBtn {
+    opacity: 50%;
+}
 
 .currentSong {
     color: red;
 }
 
-.controls {
-    width: 45%;
-    height: 75%;
 
-    float: left;
-
-    background-color: #0f3834;
-    /* box-shadow: 24px, 24px, #061615; */
-    border: #03DAC5 solid 3px;
-    border-radius: 7px 0px 7px 0px;
-
-
-}
 
 #playlistFuncs {
     float: right;

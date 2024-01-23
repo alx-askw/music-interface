@@ -6,7 +6,9 @@ const { playlistSave, playlistRead } = require('./utils/playlistFuncs.js');
 const startExpressServer = require('./server');
 const fs = require('fs');
 
+//! FOR SOME REASON TRYING TO BUILD WITH SQUIRREL.WINDOWS, THIS LINE CAUSES A HUGE PROBLEM - I COMMENTED THIS OUT IN TEST BUILD 1
 require('dotenv').config()
+//!^^^^^^^^^^^^^^^^^^^^^^^^
 const PORT = 3000;
 
 
@@ -23,24 +25,25 @@ function createWindow() {
             // devTools: false,
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
-        }
+        },
     });
 
     mainWindow.setMenuBarVisibility(false);
+    mainWindow.setResizable(false); //todo: make app responsive
 
     mainWindow.setThumbarButtons([
         {
-            icon: null,
+            icon: 'testICON2.png',
             click() { mainWindow.webContents.send('task-bar-control', 'backBtn') },
             tooltip: 'Last Song'
         },
         {
-            icon: null,
+            icon: 'testICON.png',
             click() { mainWindow.webContents.send('task-bar-control', 'playPause') },
             tooltip: 'Play or Pause'
         },
         {
-            icon: null,
+            icon: 'testICON3.png',
             click() { mainWindow.webContents.send('task-bar-control', 'forwardBtn') },
             tooltip: 'Next Song'
         }
