@@ -51,9 +51,9 @@ async function handleLoadedMetaData(event) {
 
 
   imagePath = await window.testAPI.updateImage();
-  if (imagePath) {
+  let songName = await window.testAPI.displayInfo(filePath)
+  document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
 
-  }
 }
 
 async function handleTimeUpdates(event) {
@@ -87,7 +87,6 @@ async function handleSeekbarClick(event) {
   //https://stackoverflow.com/questions/3234256/find-mouse-position-relative-to-element
   //https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
   let seekDomRect = document.getElementById("seekbar").getBoundingClientRect();
-  // console.log(seekDomRect);
   let percent = (event.clientX - seekDomRect.left) / seekDomRect.width;
   audioPlayer.currentTime = percent * audioPlayer.duration;
 
@@ -146,10 +145,12 @@ function songChangeHandle(event) {
       if (event.target.id === 'backBtn') {
         playlistPointer === 0 ? playlistPointer = (playlist.length - 1) : playlistPointer--;
         eventHandlersMP3();
+        console.log("case back click: ", playlist, "  | pointer: ", playlistPointer)
       }
       if (event.target.id === 'forwardBtn') {
         playlistPointer === (playlist.length - 1) ? playlistPointer = 0 : playlistPointer++;
         eventHandlersMP3();
+        console.log("case forward click: ", playlist, "  | pointer: ", playlistPointer)
       }
       break;
     default:
@@ -177,8 +178,6 @@ async function eventHandlersMP3(event) {
   lyricPath = filePath.split(".")[0] + ".lrc";
   document.getElementById("audioPlayer").src = `file://${filePath}`;
 
-  let songName = await window.testAPI.displayInfo(filePath)
-  document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
   //todo: set background as blurred album art
   // let bkTest = document.getElementById('albumArt').src;
   // document.body.style.background = `url('${bkTest}')`;
@@ -239,6 +238,7 @@ async function handleChanges(event) {
     case ('mp3'):
       const filePath = getPath.filePaths[0];
       playlist.push({ song: filePath, index: playlist.length })
+      console.log("case mp3: ", playlist, playlistPointer)
       break;
 
     case ('json'):
@@ -247,6 +247,7 @@ async function handleChanges(event) {
       Object.keys(loadedPlaylist).forEach(async function async(key, index) {
         playlist.push({ song: loadedPlaylist[key], index: playlist.length })
       })
+      console.log("case json: ", playlist, playlistPointer)
       break;
 
     default:
@@ -268,12 +269,14 @@ async function handleChanges(event) {
 
 }
 
-function uxPlaylistHandler() {
+async function uxPlaylistHandler() {
   const playlistULTag = document.getElementById('playlist');
   playlistULTag.innerHTML = '';
-  playlist.forEach(async function (song) {
+  for (let song of playlist) {
     const currentSongInfo = await window.testAPI.displayInfo(song.song);
-    const songFromList = document.createTextNode(`${currentSongInfo.artist} - ${currentSongInfo.songName}`);
+    console.log(`song obj for ${song.song} : ${currentSongInfo}`)
+    // const songFromList = document.createTextNode(`${currentSongInfo.artist} - ${currentSongInfo.songName}`);
+    const songFromList = document.createTextNode(`${song.song}`);
     const entry = document.createElement('li');
     const removeBtn = document.createElement('button');
     const removeBtnImg = document.createElement('img');
@@ -294,7 +297,7 @@ function uxPlaylistHandler() {
     entry.appendChild(removeBtn);
     entry.appendChild(playBtn);
     playlistULTag.appendChild(entry);
-  })
+  }
 }
 
 

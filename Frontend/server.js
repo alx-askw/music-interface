@@ -63,7 +63,7 @@ async function getInfoForFrontendDisplay(path) {
             resolve(returnObj);
         })
     })
-
+    // return { artist: " ", songName: "" }
 }
 
 
