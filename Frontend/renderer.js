@@ -51,6 +51,7 @@ async function handleLoadedMetaData(event) {
 
 
   imagePath = await window.testAPI.updateImage();
+  // document.getElementById('albumArt').src = imagePath;
   let songName = await window.testAPI.displayInfo(filePath)
   document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
 
@@ -272,11 +273,13 @@ async function handleChanges(event) {
 async function uxPlaylistHandler() {
   const playlistULTag = document.getElementById('playlist');
   playlistULTag.innerHTML = '';
+  //use for instead of forEach as for will only run the next iteration after the current is done
+  //avoids unexpected behavior 
   for (let song of playlist) {
     const currentSongInfo = await window.testAPI.displayInfo(song.song);
     console.log(`song obj for ${song.song} : ${currentSongInfo}`)
-    // const songFromList = document.createTextNode(`${currentSongInfo.artist} - ${currentSongInfo.songName}`);
-    const songFromList = document.createTextNode(`${song.song}`);
+    const songFromList = document.createTextNode(`${currentSongInfo.artist} - ${currentSongInfo.songName}`);
+    // const songFromList = document.createTextNode(`${song.song}`);
     const entry = document.createElement('li');
     const removeBtn = document.createElement('button');
     const removeBtnImg = document.createElement('img');
@@ -324,3 +327,19 @@ window.testAPI.taskBarControls((control) => {
     audioPlayer.paused === false ? audioPlayer.pause() : audioPlayer.play()
   }
 })
+
+//! background RnD down here
+
+const artChange = () => {
+  let albumArt = document.getElementById('albumArt').src;
+  let albumArtName = albumArt.split('/');
+  if (albumArtName[albumArtName.length - 1] !== 'placeholder.png') {
+    document.body.style.background = `url('${albumArt}') no-repeat center`;
+    console.log("flag bk: ", albumArt)
+    document.body.style.background.size = 'cover';
+  }
+}
+
+document.getElementById('albumArt').addEventListener('load', artChange);
+
+//!###############

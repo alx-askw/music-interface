@@ -7,7 +7,7 @@ const NodeID3 = require('node-id3'); //! don't import whole thing? this library 
 
 const { lyricObject } = require('./utils/lrcToLyricObject');
 const { songPersistence, checkSongLrc } = require('./utils/songDBFuncs.js');
-
+const { getInfoForFrontendDisplay, metaFunc } = require('./utils/readFileFuncs.js');
 
 //todo: add dirty system so the image buffer isn't sent every time
 let currentSong = {
@@ -20,51 +20,6 @@ let currentSong = {
 };
 
 let tempAlbumArt = ' ';
-
-async function updateImage(imgPath, mainWindow) {
-    await mainWindow.webContents.send('update-image', imgPath)
-}
-//todo maybe have this func in a separate file
-async function metaFunc(filePath, mainWindow) {
-    // console.log(filePath, " in metafUnc")
-    await NodeID3.read(filePath, function (err, output) {
-        currentSong.title = output.title;
-        currentSong.artist = output.artist;
-        mainWindow.webContents.send('song-info', { artPath: tempAlbumArt, songInfo: currentSong });
-        mainWindow.webContents.send('song-loaded', { songInfo: currentSong, artPath: tempAlbumArt });
-        //todo: Move func to separate file
-        if (output.image && output.image.imageBuffer) {
-            try {
-                //*Src:
-                //https://stackoverflow.com/questions/20756042/how-to-display-an-image-stored-as-byte-array-in-html-javascript
-                //https://stackoverflow.com/questions/6182315/how-can-i-do-base64-encoding-in-node-js
-                let b64 = Buffer.from(output.image.imageBuffer).toString('base64')
-                let link = `data:image/png;base64,${b64}`;
-                // currentSong.imageBuffer = link;
-                updateImage(link, mainWindow);
-            } catch (e) {
-                console.log("Error in metaFunc: ", e)
-            }
-        }
-    })
-}
-
-
-async function readData(path) {
-
-}
-
-async function getInfoForFrontendDisplay(path) {
-    return new Promise((resolve, reject) => {
-        let returnObj = { artist: '', songName: '' };
-        NodeID3.read(path, function (err, output) {
-            returnObj.artist = output.artist;
-            returnObj.songName = output.title;
-            resolve(returnObj);
-        })
-    })
-    // return { artist: " ", songName: "" }
-}
 
 
 
@@ -80,7 +35,7 @@ const startExpressServer = (mainWindow) => {
         currentSong.duration = song.duration;
         currentSong.currentLyric = song.currentLyric;
         // console.log("in ipcMain handle", song )
-        await metaFunc(song.filePath, mainWindow);
+        await metaFunc(song.filePath, mainWindow, currentSong, tempAlbumArt);
     })
 
 

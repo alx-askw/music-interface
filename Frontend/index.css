@@ -2,6 +2,12 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+/* Had to look this up, the back and forward buttons broke when I added the imgs - this stops them from capturing events */
+/* THIS FIXES THE ABOVE ISSUE */
+#btnGroup img {
+    pointer-events: none;
+}
+
 body {
     /* background-color: #121212; */
     /* background-color: #27282c; */

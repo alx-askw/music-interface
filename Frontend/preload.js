@@ -11,8 +11,12 @@ const TESTAPI = {
       callback(data);
     }),
   updateImage: async () => {
+    let imageUpdated = false; //Not super clean but this means that the 'artChange' function up front is only called once per image
     ipcRenderer.on('update-image', (event, imagePath) => {
-      document.getElementById('albumArt').src = imagePath;
+      if (!imageUpdated) {
+        document.getElementById('albumArt').src = imagePath;
+        imageUpdated = true;
+      }
     })
   },
   lrcObject: async (loc) => {
