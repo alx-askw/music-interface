@@ -166,6 +166,7 @@ function songChangeHandle(event) {
 
 
 async function eventHandlersMP3(event) {
+  document.getElementById('lyrics').textContent = '----';
   event = {
     target: {
       files: [
@@ -280,7 +281,9 @@ async function uxPlaylistHandler() {
   for (let song of playlist) {
     const currentSongInfo = await window.testAPI.displayInfo(song.song);
     console.log(`song obj for ${song.song} : ${currentSongInfo}`)
-    const songFromList = document.createTextNode(`${currentSongInfo.artist} - ${currentSongInfo.songName}`);
+    const songFromList = document.createElement('span');
+    songFromList.textContent = `${currentSongInfo.artist} - ${currentSongInfo.songName}`;
+    songFromList.classList.add('playlistText');
     // const songFromList = document.createTextNode(`${song.song}`);
     const entry = document.createElement('li');
     const removeBtn = document.createElement('button');
@@ -290,7 +293,7 @@ async function uxPlaylistHandler() {
     removeBtn.className = 'plRemoveBtn'
     removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
 
-    entry.appendChild(songFromList)
+    entry.appendChild(songFromList);
     entry.appendChild(removeBtn);
     entry.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }); });
     entry.className = 'playlistEntry'

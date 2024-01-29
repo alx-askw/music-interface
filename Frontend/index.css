@@ -29,19 +29,29 @@ body {
 
 
 #playlist {
-    color: #BB86FC;
+    color: #d2acff;
 
 }
 
 .playlistEntry {
-    /* height: 30px; */
-    background-color: #ffe66b;
-    border: 1px solid red;
+    height: 30px;
+    display: flex;
+    align-items: center;
+
 }
 
 .playlistEntry:hover {
-    background-color: #02af9e;
+    background-color: #5b3b83;
 }
+
+.playlistText {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #d2acff;
+}
+
 
 .controls {
     width: 45%;
@@ -91,7 +101,7 @@ body {
     width: 204px;
     height: 204px;
     margin: 15px;
-    border: 2px solid #ffe66b;
+    border: 2px solid #BB86FC;
     border-radius: 50%;
 
     object-fit: cover;
@@ -239,10 +249,17 @@ body {
 }
 
 .plRemoveBtn {
-    background-color: #03DAC5;
-    color: black;
-    border-radius: 2px;
+    margin: 3px;
+    /* background-color: #ddd; */
+    background-color: transparent;
+    border: none;
+    height: 30px;
+    width: 30px;
+    margin-left: auto;
+}
 
+.plRemoveBtn:hover {
+    background-color: #d2acff;
 }
 
 #titleContainer {
