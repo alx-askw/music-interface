@@ -9,10 +9,7 @@
 }
 
 body {
-    /* background-color: #121212; */
-    /* background-color: #27282c; */
-    /* background-color: #11001c; */
-    background-color: #ffe66b;
+    background-color: white;
     backdrop-filter: blur(10px);
 }
 
@@ -24,12 +21,15 @@ body {
 
 .controls {
     width: 45%;
-    height: 75%;
+    height: 85%;
     float: left;
-    background-color: #222222;
+    /* background-color: #222222; */
+    background-color: rgb(34, 34, 34, 0.65);
     /* box-shadow: 24px, 24px, #061615; */
     /* border: #03DAC5 solid 3px; */
     border-radius: 7px 0px 7px 0px;
+
+    /* opacity: 70%; */
 }
 
 #appTitle {
@@ -123,8 +123,8 @@ body {
 #playlistFuncs {
     float: right;
     width: 45%;
-    height: 75%;
-    background-color: #222222;
+    height: 85%;
+    background-color: rgb(34, 34, 34, 0.65);
     /* box-shadow: 24px, 24px, #061615; */
     /* border: #03DAC5 solid 3px; */
     border-radius: 7px 0px 7px 0px;
@@ -142,9 +142,16 @@ body {
     justify-content: center;
 }
 
+
 #playlistControls button {
     margin-top: 5px;
-    background-color: #ffe66b;
+    margin-right: 5px;
+    background-color: #ddd;
+    border: none;
+}
+
+#playlistControls button:hover {
+    background-color: #afafaf;
 }
 
 #playlistControls button img {
@@ -178,7 +185,15 @@ body {
 }
 
 #btnGroup button {
-    background-color: #ffe66b;
+    /* background-color: #ffe66b; */
+    background-color: #ddd;
+    margin-right: 5px;
+    border: none;
+}
+
+#btnGroup button:hover {
+    /* background-color: #888888; */
+    background-color: #afafaf;
 }
 
 #btnGroup button img {
@@ -209,7 +224,51 @@ body {
 
 }
 
+#titleContainer {
+    max-height: 35px;
+    margin: 2px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: medium;
+    align-items: center;
 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+
+.songAndArtist {
+    position: relative;
+    width: 95%;
+    color: blue;
+}
+
+.songAndArtistBig {
+    position: relative;
+    width: 95%;
+    color: white;
+}
+
+/* https://medium.com/@attarfarnoosh/an-animated-moving-text-effect-with-toy-story-characters-a8692e887042 */
+@keyframes moveLeft {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+.songAndArtistBig:hover {
+    animation: moveLeft 7s linear infinite;
+    text-shadow: 0 0 4px#d2acff;
+}
 
 /* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
 

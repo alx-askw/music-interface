@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
-    <title>Music Interface</title>
+    <title>Dionysos Music Interface</title>
 </head>
 
 <body>
@@ -13,11 +13,11 @@
         <div id="titleDiv">
             <h1 id="appTitle">// Dionysos //</h1>
         </div>
-        <div>
-            <h2 id="songAndArtist">------------</h2>
 
-        </div>
         <div class="controls">
+            <div id="titleContainer" class="titleContainer">
+                <p id="songAndArtist" class="songAndArtist">------------</p>
+            </div>
             <div id="albumArtDiv">
                 <img class="albumArt" id="albumArt" src="placeholder.png" alt="">
             </div>
@@ -44,7 +44,8 @@
                 <h3 id="lyrics">----</h3>
             </div>
             <div id="lrcIn">
-                <input class="lrcIn" type="file" id="lrcFile" accept=".lrc">
+                <!-- <input class="lrcIn" type="file" id="lrcFile" accept=".lrc" /> -->
+                <div class="lrcIn" id="lrcFile"></div>
             </div>
         </div>
         <div id="playlistFuncs">

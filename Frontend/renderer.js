@@ -54,6 +54,7 @@ async function handleLoadedMetaData(event) {
   // document.getElementById('albumArt').src = imagePath;
   let songName = await window.testAPI.displayInfo(filePath)
   document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
+  test(songName)
 
 }
 
@@ -343,3 +344,15 @@ const artChange = () => {
 document.getElementById('albumArt').addEventListener('load', artChange);
 
 //!###############
+
+const test = (songName) => {
+  const titleDiv = document.getElementById('titleContainer');
+  const songAndArtist = document.getElementById("songAndArtist");
+  if (songAndArtist.offsetWidth < songAndArtist.scrollWidth) {
+    titleDiv.classList.remove('songAndArtist');
+    songAndArtist.classList.add('songAndArtistBig');
+  } else {
+    songAndArtist.classList.remove('songAndArtistBig');
+    songAndArtist.classList.add('songAndArtist');
+  }
+}

@@ -16,6 +16,8 @@ bugs:
   - that's why pressing back button a few times would work
 - Some songs can only be removed by playing them first from playlist
 
+- on linux:
+  - songObject.json paths are different from window
 
 things to consider:
   - Not bugs, just notes!
