@@ -240,16 +240,17 @@ async function handleChanges(event) {
     case ('json'):
       let loadedPlaylist = await window.testAPI.playlistRead(getPath.filePaths[0]);
       //todo: if multiple files are selected, handle the different types
-      Object.keys(loadedPlaylist).forEach(async function async(key, index) {
-        playlist.push({ song: loadedPlaylist[key], index: playlist.length })
-      })
-      console.log("case json: ", playlist, playlistPointer)
+      try {
+        Object.keys(loadedPlaylist).forEach(async function async(key, index) {
+          playlist.push({ song: loadedPlaylist[key], index: playlist.length })
+        })
+        console.log("case json: ", playlist, playlistPointer)
+      } catch (e) {
+        alert('Failed to open playlist: ', e);
+      }
       break;
     case ('lrc'):
-      console.log("lrc Event", getPath)
-
       if (audioPlayer.src.endsWith('.html') !== true) {
-        event.target.files = []
         handleLrcChanges(getPath.filePaths[0]);
       } else {
         alert('No song loaded!')
@@ -355,3 +356,11 @@ const titleOverflowManager = (songName) => {
     songAndArtist.classList.add('songAndArtist');
   }
 }
+
+
+//todo: custom modals instead of alerts
+
+document.getElementById('appTitle').addEventListener('click', () => {
+  const helpString = 'Use "add" button to : \n -Add MP3 files to playlist \n -Add JSON Playlists \n -Associate LRC file to current song';
+  alert(helpString);
+})

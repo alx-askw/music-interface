@@ -71,9 +71,9 @@ body {
     /* padding: 10px; */
 }
 
-/* #appTitle:hover {
+#appTitle:hover {
     text-shadow: 0 0 4px#d2acff;
-} */
+}
 
 #lyrics {
     color: #BB86FC;

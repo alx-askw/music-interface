@@ -56,7 +56,7 @@
   - what was being listened to last
   - how far into the last item 
 - video
-
+- Replace all alerts with custom/nicer looking modals
 
 
 
