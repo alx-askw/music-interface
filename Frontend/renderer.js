@@ -54,7 +54,7 @@ async function handleLoadedMetaData(event) {
   // document.getElementById('albumArt').src = imagePath;
   let songName = await window.testAPI.displayInfo(filePath)
   document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
-  test(songName)
+  titleOverflowManager(songName)
 
 }
 
@@ -218,6 +218,7 @@ async function eventHandlersMP3(event) {
 function clearPlaylist() {
   playlist = [];
   playlistPointer = 0;
+
   uxPlaylistHandler();
 }
 
@@ -289,17 +290,10 @@ async function uxPlaylistHandler() {
     removeBtn.className = 'plRemoveBtn'
     removeBtn.addEventListener('click', () => { playlist.splice(playlistPointer, 1); updatePlaylistIndices(); uxPlaylistHandler(); })
 
-    const playBtn = document.createElement('button');
-    playBtn.className = 'plPlayBtn'
-    playBtn.textContent = 'Play';
-    playBtn.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }) });
-
-
-    console.log(playlist)
-
     entry.appendChild(songFromList)
     entry.appendChild(removeBtn);
-    entry.appendChild(playBtn);
+    entry.addEventListener('click', () => { playlistPointer = song.index; eventHandlersMP3(event = { target: { files: [{ path: song.index }] } }); });
+    entry.className = 'playlistEntry'
     playlistULTag.appendChild(entry);
   }
 }
@@ -345,13 +339,14 @@ document.getElementById('albumArt').addEventListener('load', artChange);
 
 //!###############
 
-const test = (songName) => {
+//https://javascript.plainenglish.io/how-to-check-for-text-overflow-ellipsis-in-an-html-element-52d32c720c3e
+const titleOverflowManager = (songName) => {
   const titleDiv = document.getElementById('titleContainer');
   const songAndArtist = document.getElementById("songAndArtist");
   if (songAndArtist.offsetWidth < songAndArtist.scrollWidth) {
     titleDiv.classList.remove('songAndArtist');
     songAndArtist.classList.add('songAndArtistBig');
-  } else {
+  } else { // else here :(
     songAndArtist.classList.remove('songAndArtistBig');
     songAndArtist.classList.add('songAndArtist');
   }

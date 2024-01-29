@@ -1,5 +1,18 @@
 * {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* text-shadow: 0 0 4px #ffffff; */
+    color: #BB86FC;
+
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: #02af9e;
 }
 
 /* Had to look this up, the back and forward buttons broke when I added the imgs - this stops them from capturing events */
@@ -9,7 +22,7 @@
 }
 
 body {
-    background-color: white;
+    background-color: rgb(34, 34, 34, 0.65);
     backdrop-filter: blur(10px);
 }
 
@@ -17,6 +30,17 @@ body {
 
 #playlist {
     color: #BB86FC;
+
+}
+
+.playlistEntry {
+    /* height: 30px; */
+    background-color: #ffe66b;
+    border: 1px solid red;
+}
+
+.playlistEntry:hover {
+    background-color: #02af9e;
 }
 
 .controls {
@@ -33,14 +57,13 @@ body {
 }
 
 #appTitle {
-    /* color: #C98CA7; */
-    color: #a5607f;
-
+    color: #BB86FC;
+    /* padding: 10px; */
 }
 
-#appTitle:hover {
+/* #appTitle:hover {
     text-shadow: 0 0 4px#d2acff;
-}
+} */
 
 #lyrics {
     color: #BB86FC;
@@ -73,8 +96,6 @@ body {
 
     object-fit: cover;
 }
-
-#audioPlayer {}
 
 #seekbar {
     /* position: absolute; */
@@ -113,7 +134,7 @@ body {
     width: 0;
 }
 
-
+/* TODO: add current song styling for playlist */
 .currentSong {
     color: red;
 }
@@ -132,7 +153,7 @@ body {
 
 #playlistContainer {
     overflow-y: scroll;
-    height: 95%;
+    height: 90%;
 }
 
 #playlistControls {
@@ -242,15 +263,19 @@ body {
 
 
 .songAndArtist {
-    position: relative;
+    /* position: relative; */
     width: 95%;
-    color: blue;
+    text-shadow: 0 0 4px #d2acff;
+    text-align: center;
+
 }
 
 .songAndArtistBig {
-    position: relative;
+    /* position: relative; */
     width: 95%;
-    color: white;
+    text-shadow: 0 0 4px #d2acff;
+    animation: moveLeft 7s linear infinite;
+
 }
 
 /* https://medium.com/@attarfarnoosh/an-animated-moving-text-effect-with-toy-story-characters-a8692e887042 */
@@ -264,11 +289,17 @@ body {
     }
 }
 
-
-.songAndArtistBig:hover {
+/* ! Leaving this here for future use maybe? It was buggy */
+/* .songAndArtistBig:hover {
     animation: moveLeft 7s linear infinite;
-    text-shadow: 0 0 4px#d2acff;
-}
+    text-shadow: 0 0 4px #d2acff;
+    text-shadow: 0 0 6px black;
+
+} */
+
+
+
+
 
 /* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
 
@@ -282,11 +313,11 @@ body {
 
 ::-webkit-scrollbar-thumb {
     width: 6px;
-    background: #02af9e;
+    background: #ddd;
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
     width: 20px;
-    background: #017a6e;
+    background: #afafaf;
 }
