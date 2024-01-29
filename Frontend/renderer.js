@@ -96,7 +96,8 @@ async function handleSeekbarClick(event) {
 }
 
 async function handleLrcChanges(event) {
-  const lrcPath = event.target.files[0].path;
+  // const lrcPath = event.target.files[0].path;
+  const lrcPath = event;
   let songName = filePath;
   const associateObj = { lrcPath, songName };
   let addLyric = await window.testAPI.addLrcToDB(associateObj);
@@ -181,14 +182,6 @@ async function eventHandlersMP3(event) {
   lyricPath = filePath.split(".")[0] + ".lrc";
   document.getElementById("audioPlayer").src = `file://${filePath}`;
 
-  //todo: set background as blurred album art
-  // let bkTest = document.getElementById('albumArt').src;
-  // document.body.style.background = `url('${bkTest}')`;
-  // document.body.style.background.size = 'cover';
-
-
-
-
   //*Adding and removing event listeners (remember that ELs aren't removed automatically)
   audioPlayer.removeEventListener("loadedmetadata", handleLoadedMetaData);
   audioPlayer.removeEventListener("timeupdate", handleTimeUpdates);
@@ -235,7 +228,6 @@ async function savePlaylist() {
 
 
 async function handleChanges(event) {
-  console.log(event)
   let getPath = await window.testAPI.openFile();
   let fileType = getPath.filePaths[0].split('.')[1];
   switch (fileType) {
@@ -253,7 +245,16 @@ async function handleChanges(event) {
       })
       console.log("case json: ", playlist, playlistPointer)
       break;
+    case ('lrc'):
+      console.log("lrc Event", getPath)
 
+      if (audioPlayer.src.endsWith('.html') !== true) {
+        event.target.files = []
+        handleLrcChanges(getPath.filePaths[0]);
+      } else {
+        alert('No song loaded!')
+      }
+      break
     default:
       alert('This program only accepts mp3/json');
       break;

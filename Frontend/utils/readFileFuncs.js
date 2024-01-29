@@ -24,13 +24,17 @@ async function metaFunc(filePath, mainWindow, currentSong, tempAlbumArt) {
 }
 
 
+const tempUndefinedCheck = (string) => {
+    const stringSplit = string.split('-');
+    console.log(stringSplit)
+}
 
 async function getInfoForFrontendDisplay(path) {
     return new Promise((resolve, reject) => {
         let returnObj = { artist: '', songName: '' };
         NodeID3.read(path, function (err, output) {
-            returnObj.artist = output.artist;
-            returnObj.songName = output.title;
+            returnObj.artist = output.artist && output.artist.trim !== '' ? output.artist : ''; // if either field is empty
+            returnObj.songName = output.title && output.title.trim !== '' ? output.title : '';
             resolve(returnObj);
         })
     })
