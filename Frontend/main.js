@@ -33,17 +33,17 @@ function createWindow() {
 
     mainWindow.setThumbarButtons([
         {
-            icon: 'testICON2.png',
+            icon: null,
             click() { mainWindow.webContents.send('task-bar-control', 'backBtn') },
             tooltip: 'Last Song'
         },
         {
-            icon: 'testICON.png',
+            icon: null,
             click() { mainWindow.webContents.send('task-bar-control', 'playPause') },
             tooltip: 'Play or Pause'
         },
         {
-            icon: 'testICON3.png',
+            icon: null,
             click() { mainWindow.webContents.send('task-bar-control', 'forwardBtn') },
             tooltip: 'Next Song'
         }
