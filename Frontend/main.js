@@ -4,13 +4,13 @@ const { app, BrowserWindow, ipcMain, dialog, nativeTheme } = require('electron')
 const path = require('path');
 const { playlistSave, playlistRead } = require('./utils/playlistFuncs.js');
 const startExpressServer = require('./server');
-const fs = require('fs');
 
+
+// const isPackaged = app.isPackaged;
 //! FOR SOME REASON TRYING TO BUILD WITH SQUIRREL.WINDOWS, THIS LINE CAUSES A HUGE PROBLEM - I COMMENTED THIS OUT IN TEST BUILD 1
-require('dotenv').config()
+// require('dotenv').config()
 //!^^^^^^^^^^^^^^^^^^^^^^^^
 const PORT = 3000;
-
 
 //https://www.electronjs.org/docs/latest/tutorial/dark-mode
 nativeTheme.themeSource = 'dark';
@@ -25,6 +25,7 @@ function createWindow() {
             // devTools: false,
             nodeIntegration: true,
             preload: path.join(__dirname, 'preload.js'),
+            // sandbox: !isPackaged
         },
     });
 
