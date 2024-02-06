@@ -7,12 +7,12 @@
 //!The testing docs are kind of weird - with importing - import('wdio-electron-service/preload');
 import { browser, $ } from '@wdio/globals'
 
-describe('Electron Testing', () => {
+describe('Music App Tests', () => {
     it('h1 should display', async () => {
         await expect($('h1')).toBeDisplayed();
     })
     it('h1 should contain app name', async () => {
         await expect($('h1')).toHaveTextContaining('// Dionysos //');
     })
-})
 
+})
