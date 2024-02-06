@@ -364,3 +364,6 @@ document.getElementById('appTitle').addEventListener('click', () => {
   const helpString = 'Use "add" button to : \n -Add MP3 files to playlist \n -Add JSON Playlists \n -Associate LRC file to current song';
   alert(helpString);
 })
+
+
+document.body.style.background = `url('./placeholder.png') no-repeat center`;
