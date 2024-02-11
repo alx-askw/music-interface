@@ -12,7 +12,19 @@ describe('Music App Tests', () => {
         await expect($('h1')).toBeDisplayed();
     })
     it('h1 should contain app name', async () => {
-        await expect($('h1')).toHaveTextContaining('// Dionysos //');
+        await expect($('h1')).toHaveText('// Dionysos //');
     })
-
+    it('Song ID should be blank at first', async () => {
+        await expect($('p')).toHaveText("------------");
+    })
+    it('One click of title - help alert should pop up', async () => {
+        const titleBtn = await $('#appTitle');
+        titleBtn.click();
+        expect($(titleBtn)).toHaveText();
+    })
+    it('dialog opens on click', async () => {
+        const openBtn = await $('#mp3File');
+        openBtn.click();
+        expect(browser.isAlertOpen()).toBeTruthy();
+    })
 })
