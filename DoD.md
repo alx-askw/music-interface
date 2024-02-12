@@ -32,8 +32,12 @@
   - Make the code more modular
   - Single responsibility functions
 
+- Make example Gif for readme
+
 ### Beyond 1.0
 
+- Left and Right Arrows seek 5 seconds backwards or forwards (customisable?)
+- Up and Down Arrows turn follow up or down by .5 ''
 - Add mongoDB impl of DB
 - If no lyrics available + connected to internet - fetch lyrics from an external API
 - Add gradient colour to volume slider
@@ -57,6 +61,7 @@
   - how far into the last item 
 - video
 - Replace all alerts with custom/nicer looking modals
+- Track how many time songs are played (like Winamp)
 
 
 

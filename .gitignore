@@ -25,3 +25,6 @@ Frontend/testDatabase.json
 /Frontend/testICON2.png
 /Frontend/testICON3.png
 
+/Frontend/out
+
+userFiles/songObjects.json
