@@ -14,7 +14,7 @@ const songObject = {
   filePath: "no route",
   duration: "00:00",
   currentPos: "00:00",
-  currentLyric: " ",
+  currentLyric: "------",
 };
 let songDurationSecs = 0;
 let currentPosSecs = 0;
@@ -32,6 +32,7 @@ let playlist = [];
 let playlistPointer = 0;
 
 async function handleLoadedMetaData(event) {
+  songObject.currentLyric = "------";
   tempDurationSecs = document.getElementById("audioPlayer").duration;
   let songDurationMins = Math.floor(Math.round(audioPlayer.duration) / 60);
 
@@ -51,7 +52,6 @@ async function handleLoadedMetaData(event) {
 
 
   imagePath = await window.testAPI.updateImage();
-  // document.getElementById('albumArt').src = imagePath;
   let songName = await window.testAPI.displayInfo(filePath)
   document.getElementById('songAndArtist').textContent = `${songName.artist} - ${songName.songName}`;
   titleOverflowManager(songName)
@@ -83,6 +83,7 @@ async function handleTimeUpdates(event) {
     }
   }
   window.testAPI.setCurrentSong(songObject);
+  window.testAPI.setCurrentSongMain(songObject);
 }
 
 async function handleSeekbarClick(event) {

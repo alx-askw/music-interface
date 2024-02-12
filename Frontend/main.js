@@ -5,6 +5,7 @@ const path = require('path');
 const { playlistSave, playlistRead } = require('./utils/playlistFuncs.js');
 const startExpressServer = require('./server');
 
+const DiscordRPC = require('discord-rpc');
 
 // const isPackaged = app.isPackaged;
 //! FOR SOME REASON TRYING TO BUILD WITH SQUIRREL.WINDOWS, THIS LINE CAUSES A HUGE PROBLEM - I COMMENTED THIS OUT IN TEST BUILD 1
@@ -56,6 +57,7 @@ function createWindow() {
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
+
 }
 
 app.whenReady().then(() => {
@@ -96,3 +98,69 @@ ipcMain.handle('pl-save', async (event, playlist) => {
     }
 })
 
+
+//Discord Rich Presence 
+//todo maybe move this to its own file
+//########################################################
+
+const lyricCleaner = require('./utils/lyricContent.js')
+const SFWLyrics = true; // todo
+
+//todo: artist or title could be undefined - need to handle that 
+//! Song duration seconds aren't being accounted for somewhere
+let currentSong = {
+    title: 'No song playing',
+    artist: 'No artist',
+    duration: '00:00',
+    currentPos: '00:00',
+    imageBuffer: '',
+    currentLyric: 'No Lyrics'
+};
+
+const { metaFunc } = require('./utils/readFileFuncs.js');
+let tempAlbumArt = ' ';
+ipcMain.handle('set-song-main', async (event, song) => {
+    currentSong.currentPos = song.currentPos;
+    currentSong.duration = song.duration;
+    // if (SFWLyrics){
+    currentSong.currentLyric = song.currentLyric.length > 2 ? song.currentLyric : "------"; //rpc.setActivity fields must be more than 2 characters 
+    //}
+    await metaFunc(song.filePath, mainWindow, currentSong, tempAlbumArt);
+})
+
+//! Images have to be uploaded manually to discord dev portal :(
+// ipcMain.handle('img-link', async (event, imageLink) => {
+//     currentSong.imageBuffer = imageLink;
+// })
+
+const clientId = null;
+
+if (clientId !== null) {
+    console.log("Client ID Present");
+    const rpc = new DiscordRPC.Client({ transport: 'ipc' });
+
+    async function setActivity() {
+        if (!rpc || !mainWindow) {
+            return;
+        }
+
+        rpc.setActivity({
+            name: '// Dionysos Music Player //',
+            details: `${currentSong.artist} - ${currentSong.title} | ${currentSong.currentPos} / ${currentSong.duration}`,
+            state: `${currentSong.currentLyric}`,
+            url: 'https://github.com/alx-askw/music-interface',
+            instance: false,
+        });
+    }
+
+    rpc.on('ready', () => {
+        setActivity();
+
+        // activity can only be set every 15 seconds
+        setInterval(() => {
+            setActivity();
+        }, 1000);
+    });
+
+    rpc.login({ clientId }).catch(console.error);
+}

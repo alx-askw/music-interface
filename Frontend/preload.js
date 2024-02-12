@@ -1,13 +1,14 @@
 // preload.js
 
 const e = require("cors");
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer, ipcMain } = require("electron");
 
 
 
 const TESTAPI = {
   // setCurrentSong: (song) => ipcRenderer.send('set-song', song),
   setCurrentSong: (song) => ipcRenderer.invoke("set-song", song),
+  setCurrentSongMain: (song) => ipcRenderer.invoke("set-song-main", song),
   sendForward: (callback) =>
     ipcRenderer.on("song-loaded", (event, data) => {
       callback(data);
@@ -18,6 +19,7 @@ const TESTAPI = {
       if (!imageUpdated) {
         document.getElementById('albumArt').src = imagePath;
         imageUpdated = true;
+        ipcMain.invoke('img-link', imagePath);
       }
     })
   },
