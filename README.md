@@ -69,3 +69,18 @@ Do with this as you will :smile:
 
 <br/>
 
+#### Discord Rich Presence
+
+<br/>
+
+![Discord Rich Presence](https://cdn.discordapp.com/attachments/1108167978714923110/1206702827804692590/readme3.PNG?ex=65dcf895&is=65ca8395&hm=035dc09d3c46c8b9db3bc314c5acfb5f09b9f709595e491a6790f9a86784a248&)
+
+<br/>
+
+There is currently no client ID for the discord rich presence in the main process. I will re-add this later and it will be an option that can be toggled, so any activity will only be visible if it is turned on.
+
+There are some limitations with the DiscordRPC due to the amount of information that I would like to show. Dev note: It seems to be limited to two lines of text that is updated once per 15 seconds (though it currently updates every second?); furthermore, images have to be uploaded manually, so album art is not really feasible.
+
+:warning: The lyrics are **NOT** censored when discord displays them, so profanities **will** be shown if your lrc files contain them :warning: 
+
+Note: An option to clean lyrics before displaying them is something being worked on for a future release
