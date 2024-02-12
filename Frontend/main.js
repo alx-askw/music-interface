@@ -103,6 +103,10 @@ ipcMain.handle('pl-save', async (event, playlist) => {
 //todo maybe move this to its own file
 //########################################################
 
+//Example code used to make this work:
+//https://github.com/discordjs/RPC/blob/master/example/main.js
+
+
 const lyricCleaner = require('./utils/lyricContent.js')
 const SFWLyrics = true; // todo
 
@@ -155,11 +159,9 @@ if (clientId !== null) {
 
     rpc.on('ready', () => {
         setActivity();
-
-        // activity can only be set every 15 seconds
         setInterval(() => {
             setActivity();
-        }, 1000);
+        }, 1000); //! This should only work every 15 seconds according to example code + docs but setting to 1 second works (be carful)
     });
 
     rpc.login({ clientId }).catch(console.error);
