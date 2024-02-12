@@ -81,6 +81,6 @@ There is currently no client ID for the discord rich presence in the main proces
 
 There are some limitations with the DiscordRPC due to the amount of information that I would like to show. Dev note: It seems to be limited to two lines of text that is updated once per 15 seconds (though it currently updates every second?); furthermore, images have to be uploaded manually, so album art is not really feasible.
 
-:warning: The lyrics are **NOT** censored when discord displays them, so profanities **will** be shown if your lrc files contain them :warning: 
+:warning: The lyrics are **NOT** censored when discord displays them, so profanities **will** be shown if your lrc files contain them
 
 Note: An option to clean lyrics before displaying them is something being worked on for a future release
