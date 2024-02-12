@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 async function lyricObject(location) {
-    console.log("lyric object function called, with: ", location)
     try {
         const lrcRegex = /^(\[)(\d*)(:)(.*)(\])(.*)/i; //*Src: https://stackoverflow.com/questions/11510012/any-javascript-parser-for-lrc
         const lrcContent = await fs.promises.readFile(location, 'utf8');
@@ -17,7 +16,6 @@ async function lyricObject(location) {
             }
             return null;
         }).filter(Boolean); //remove falsy (NaN, etc)
-        // console.log("--->| ", lyrics, " |<---");
         return lyrics;
     } catch (err) {
         return null;

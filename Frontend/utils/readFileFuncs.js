@@ -26,7 +26,6 @@ async function metaFunc(filePath, mainWindow, currentSong, tempAlbumArt) {
 
 const tempUndefinedCheck = (string) => {
     const stringSplit = string.split('-');
-    console.log(stringSplit)
 }
 
 async function getInfoForFrontendDisplay(path) {

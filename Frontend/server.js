@@ -34,7 +34,6 @@ const startExpressServer = (mainWindow) => {
         currentSong.currentPos = song.currentPos;
         currentSong.duration = song.duration;
         currentSong.currentLyric = song.currentLyric;
-        // console.log("in ipcMain handle", song )
         await metaFunc(song.filePath, mainWindow, currentSong, tempAlbumArt);
     })
 

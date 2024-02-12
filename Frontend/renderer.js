@@ -130,14 +130,11 @@ function handleVolumeSlider(event) {
   let percent = (event.clientX - volDomObj.left) / volDomObj.width;
   audioPlayer.volume = percent;
   document.getElementById('volumeSliderFill').style.width = `${percent * 100}%`;
-  console.log(audioPlayer.volume);
 };
 
 
 function songChangeHandle(event) {
-  console.log("change event", event.type, event.target.id)
   const invokeAction = event.type;
-  console.log("invoke", invokeAction)
   switch (invokeAction) {
     case ('ended'):
       //! need to be careful, issues with the pointer going beyond the list size
@@ -148,12 +145,10 @@ function songChangeHandle(event) {
       if (event.target.id === 'backBtn') {
         playlistPointer === 0 ? playlistPointer = (playlist.length - 1) : playlistPointer--;
         eventHandlersMP3();
-        console.log("case back click: ", playlist, "  | pointer: ", playlistPointer)
       }
       if (event.target.id === 'forwardBtn') {
         playlistPointer === (playlist.length - 1) ? playlistPointer = 0 : playlistPointer++;
         eventHandlersMP3();
-        console.log("case forward click: ", playlist, "  | pointer: ", playlistPointer)
       }
       break;
     default:
@@ -177,7 +172,6 @@ async function eventHandlersMP3(event) {
       ]
     }
   }
-  console.log("event here: ", event)
   filePath = event.target.files[0].path;
   lyricPath = filePath.split(".")[0] + ".lrc";
   document.getElementById("audioPlayer").src = `file://${filePath}`;
@@ -234,7 +228,6 @@ async function handleChanges(event) {
     case ('mp3'):
       const filePath = getPath.filePaths[0];
       playlist.push({ song: filePath, index: playlist.length })
-      console.log("case mp3: ", playlist, playlistPointer)
       break;
 
     case ('json'):
@@ -244,7 +237,6 @@ async function handleChanges(event) {
         Object.keys(loadedPlaylist).forEach(async function async(key, index) {
           playlist.push({ song: loadedPlaylist[key], index: playlist.length })
         })
-        console.log("case json: ", playlist, playlistPointer)
       } catch (e) {
         alert('Failed to open playlist: ', e);
       }
@@ -282,11 +274,9 @@ async function uxPlaylistHandler() {
   //avoids unexpected behavior 
   for (let song of playlist) {
     const currentSongInfo = await window.testAPI.displayInfo(song.song);
-    console.log(`song obj for ${song.song} : ${currentSongInfo}`)
     const songFromList = document.createElement('span');
     songFromList.textContent = `${currentSongInfo.artist} - ${currentSongInfo.songName}`;
     songFromList.classList.add('playlistText');
-    // const songFromList = document.createTextNode(`${song.song}`);
     const entry = document.createElement('li');
     const removeBtn = document.createElement('button');
     const removeBtnImg = document.createElement('img');
@@ -335,7 +325,6 @@ const artChange = () => {
   let albumArtName = albumArt.split('/');
   if (albumArtName[albumArtName.length - 1] !== 'placeholder.png') {
     document.body.style.background = `url('${albumArt}') no-repeat center`;
-    console.log("flag bk: ", albumArt)
     document.body.style.background.size = 'cover';
   }
 }

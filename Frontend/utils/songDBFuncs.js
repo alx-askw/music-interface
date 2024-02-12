@@ -9,8 +9,6 @@ const path = require('path');
 
 const pathToDB = path.join(__dirname, '..', '..', 'userFiles', 'songObjects');
 
-console.log("MAJOR !!!!!!!!!!", __dirname, " | ", pathToDB)
-
 var db = new JsonDB(new Config(pathToDB, true, false, '/'));
 
 
@@ -19,16 +17,11 @@ const songPersistence = async (associateObj) => {
 };
 
 const checkSongLrc = async (song) => {
-    console.log(pathToDB)
-    console.log(song)
-
     try {
         const data = await db.getData(song);
         const lrcLocation = data[song];
-        console.log(lrcLocation, " | ", data)
         return lrcLocation
     } catch (err) {
-        console.log(err)
         return null;
     }
 };

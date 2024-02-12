@@ -5,7 +5,6 @@ async function playlistRead(path) {
     try {
         let readDB = new JsonDB(new Config(path, true, false, '/'));
         let data = await readDB.getData('/');
-        console.log(data);
         return data;
     } catch (e) {
         return e;
