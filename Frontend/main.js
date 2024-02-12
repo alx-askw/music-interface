@@ -161,7 +161,7 @@ if (clientId !== null) {
         setActivity();
         setInterval(() => {
             setActivity();
-        }, 1000); //! This should only work every 15 seconds according to example code + docs but setting to 1 second works (be carful)
+        }, 1000); //! This should only work every 15 seconds according to example code + docs but setting to 1 second works (be careful)
     });
 
     rpc.login({ clientId }).catch(console.error);
